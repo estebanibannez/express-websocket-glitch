@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HBS con Socket.io</title>
+
+
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1>Ingrese Producto</h1>
+            <br>
+
+            <form autocomplete="off" novalidate id="formulario" onsubmit="send(event,this)">
+                <!-- Campo nombre del producto -->
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input id="nombre" class="form-control" type="text" name="title" required>
+                </div>
+
+                <!-- Campo precio del producto -->
+                <div class="form-group">
+                    <label for="precio">Precio</label>
+                    <input id="precio" class="form-control" type="number" step="0.5" name="price" required>
+                </div>
+
+                <!-- Campo url de la foto del producto -->
+                <div class="form-group">
+                    <label for="foto">Foto URL</label>
+                    <input id="foto" class="form-control" type="text" name="thumbnail">
+                </div>
+
+                <!-- Botón de envío -->
+                <button type="submit" class="btn btn-success mt-3">Enviar</button>
+            </form>
+            <hr>
+            <button class="btn btn-info mt-3" onclick="location.href = '/api/productos/vista'">Vista handlebars
+                productos</button>
+            <br>
+            <br>
+            <div id="datos"></div>
+
+
+
+
+            <div class="col-md-7 col-lg-7 order-md-last">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-primary">Centro de mensajes</span>
+                    <span class="badge rounded-pill">
+                        <span class="badge badge-success" id="lblOnline">conectado</span>
+                        <span class="badge badge-danger" id="lblOffline">desconectado</span>
+                    </span>
+                </h4>
+                <ul class="list-group mb-3" id="messages">
+                </ul>
+
+                <div class="card p-1">
+                    <div class="input-group">
+                        <form action="" class="form-inline" id="formMessages">
+                            <div class="col-12">
+                                <div class="input-group has-validation">
+                                    <span class="input-group-text">@</span>
+                                    <input type="text" class="form-control" id="email" name="email"
+                                        placeholder="Correo electrónico" required="">
+                                    <div class="invalid-feedback">
+                                        Correo electrónico es requerido.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-2">
+                                <div class="input-group has-validation">
+                                    <span class="input-group-text"><i class="fa fa-envelope"
+                                            aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" id="message" name="message"
+                                        placeholder="Escribe tu mensaje..." required="">
+                                    <div class="invalid-feedback">
+                                        Mensaje es requerido.
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-2">
+                                    <button type="submit" id="btnEnviar"
+                                        class="btn btn-secondary btn-block">Enviar</button>
+                                </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <script type="text/x-handlebars-template" id="index"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/socket-client.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
+</body>
+
+</html>
