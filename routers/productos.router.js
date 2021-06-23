@@ -1,4 +1,9 @@
-const { Router } = require("express");
+const {
+  Router
+} = require("express");
+
+const router = Router();
+
 const {
   getProductos,
   getProductosView,
@@ -8,7 +13,6 @@ const {
   updateProduct,
   postProductosForm,
 } = require("../controllers/productos.controller");
-const router = Router();
 
 router.get("/productos/listar", getProductos);
 router.get("/productos/listar/:id", getProductoById);
