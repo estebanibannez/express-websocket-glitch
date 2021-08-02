@@ -1,16 +1,40 @@
 const express = require("express");
 const app = express();
 const handlebars = require("express-handlebars");
-const PORT = 3000;
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const morgan = require("morgan");
+const config = require("./config/config");
+const MongoStore = require("connect-mongo");
 
+require(`./data/conectiondb`);
 //socket io
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
-
+const advancedOptions = { useNewUrlParser: true, useUnifiedTopology: true };
 //configuraciones middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cookieParser());
+app.use(morgan("dev"));
+
+app.use(cookieParser());
+app.use(
+  session({
+    store: MongoStore.create({
+      //En Atlas connect App :  Make sure to change the node version to 2.2.12:
+      mongoUrl: config.MONGO_URL,
+      mongoOptions: advancedOptions,
+    }),
+    secret: "secret",
+    resave: false,
+    saveUninitialized: false,
+    // cookie: {
+    //   expires: new Date().getTime() + minutes * 60 * 1000,
+    // },
+  }),
+);
 
 //configuracion de handlebars
 app.engine(
@@ -64,12 +88,15 @@ app.use((err, req, res, next) => {
 
 //Seteo Rutas Producto
 app.use("/api", ProductosRouter);
+app.use("/api", require("./routers/login.router"));
 
 //se establece ruta que expone archivos html , css, js
 app.use(express.static(__dirname + "/public"));
 
-server.listen(PORT, () => {
-  console.log(`servidor [DESAFIO 8] escuchando en puerto : http://localhost:${PORT}`);
+server.listen(config.PORT, () => {
+  console.log(
+    `servidor escuchando en puerto : http://localhost:${config.PORT}`,
+  );
 });
 
 // en caso de error
