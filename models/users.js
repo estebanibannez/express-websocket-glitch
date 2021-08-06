@@ -1,4 +1,4 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 module.exports = mongoose.model("Users", {
   username: String,

@@ -2,41 +2,55 @@ const router = require("express").Router();
 const passport = require("passport");
 const controller = require("../controllers/login.controller");
 
-router.get("/sin-session", (req, res) => {
-  let contador = 0;
-  res.send({ contador: ++contador });
-});
+// router.get("/sin-session", (req, res) => {
+//   let contador = 0;
+//   res.send({ contador: ++contador });
+// });
 
-router.get("/con-session", (req, res) => {
-  if (req.session.contador) {
-    req.session.contador++;
-    res.send(`Ud ha visitado el sitio ${req.session.contador} veces.`);
-  } else {
-    req.session.contador = 1;
-    res.send("Bienvenido a su primera visita al sitio!");
-  }
-});
+// router.get("/con-session", (req, res) => {
+//   if (req.session.contador) {
+//     req.session.contador++;
+//     res.send(`Ud ha visitado el sitio ${req.session.contador} veces.`);
+//   } else {
+//     req.session.contador = 1;
+//     res.send("Bienvenido a su primera visita al sitio!");
+//   }
+// });
 
-router.get("/logout", controller.getLogout);
-router.get("/login", controller.getLogin);
+// --------------- LOGIN -----------------
+router.get("/signin", controller.getSignin);
+// http://localhost:8080/api/signin
+// {
+// 	"username":"estebanibannezp",
+// 	"password": "1234"
+// }
 router.post(
-  "/login",
-  passport.authenticate("login", {
-    failureRedirect: "/api/faillogin",
-    successRedirect: "/",
+  "/signin",
+  passport.authenticate("local-signin", {
+    failureRedirect: "/faillogin",
+    successRedirect: "/home",
   }),
-  controller.login,
 );
+
+// ---------------SIGNUP------------------
+router.get("/signup", controller.getSignup);
+// http://localhost:8080/api/signup
+
+// {
+// 	"username":"estebanibannezp",
+// 	"firstname":"Esteban",
+// 	"lastname": "Ibanez",
+// 	"email":"e.ibannez.p@gmail.com",
+// 	"password": "1234"
+// }
 router.post(
   "/signup",
-  passport.authenticate("signup", {
-    failureRedirect: "/api/failsignup",
-    successRedirect: "/",
-  }),
-  controller.postSignup,
+  passport.authenticate("local-signup", {
+    successRedirect: "/home",
+    failureRedirect: "/failsignup",
+    passReqToCallback: true,
+  })
 );
-//  SIGNUP
-router.get("/signup", controller.getSignup);
 
 // router.get("/ruta-protegida", controller.rutaProtegida);
 
@@ -44,6 +58,10 @@ router.get("/failsignup", controller.getFailsignup);
 
 router.get("/faillogin", controller.getFaillogin);
 
+// http://localhost:8080/api/logout
+router.get("/logout", controller.getLogout);
+
+// ------------------------------------
 // router.post("/login", (req, res) => {
 //   if (!req.body.username || !req.body.password) {
 //     res.send("login fallo");
@@ -83,14 +101,14 @@ router.get(
   }),
 );
 
-router.get("/datos", (req, res) => {
-  console.log(req.user);
-  if (req.isAuthenticated()) {
-    res.send("<h1>datos protegidos</h1>");
-  } else {
-    res.status(401).send("debe autenticarse primero");
-  }
-});
+// router.get("/datos", (req, res) => {
+//   console.log(req.user);
+//   if (req.isAuthenticated()) {
+//     res.send("<h1>datos protegidos</h1>");
+//   } else {
+//     res.status(401).send("debe autenticarse primero");
+//   }
+// });
 
 router.get("/faillogin", (req, res) => {
   res.status(401).send({ error: "no se pudo autenticar con facebook" });

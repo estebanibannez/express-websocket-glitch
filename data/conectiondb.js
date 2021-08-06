@@ -1,6 +1,6 @@
 // module of connection to the database.
 const mongoose = require("mongoose");
-const URL = require("../config/config").MONGO_URL;
+const URL = require("../config/config").MONGO_DB.URI;
 const AMBIENTEDB = require("../config/config").MONGO_URL_TYPE;
 
 const connection = mongoose.connect(URL, {
