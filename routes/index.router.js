@@ -8,7 +8,7 @@ router.get("/", isAuthenticated, (req, res) => {
 });
 
 //navego a la ruta principal Protegida
-router.get("/home", (req, res) => {
+router.get("/home", isAuthenticated, (req, res) => {
   res.sendFile(path.join(__dirname, "../public", "home.html"));
   // return res.render("home");
 });

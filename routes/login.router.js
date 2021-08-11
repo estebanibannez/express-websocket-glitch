@@ -16,7 +16,11 @@ router.post(
 // ---------------SIGNUP------------------
 router.get("/signup", controller.getSignup);
 
-router.post('/signup', passport.authenticate('local-signup', { failureRedirect: '/failsignup' }), controller.postSignup);
+router.post(
+  "/signup",
+  passport.authenticate("local-signup", { failureRedirect: "/failsignup" }),
+  controller.postSignup,
+);
 
 router.get("/failsignup", controller.getFailsignup);
 
@@ -38,18 +42,18 @@ router.get("/logout", controller.getLogout);
 // });
 
 // // --------------- autenticación con Facebook ----------------- //
-// router.get("/auth/facebook", passport.authenticate("facebook"));
+router.get("/auth/facebook", passport.authenticate("facebook"));
 
-// router.get(
-//   "/auth/facebook/callback",
-//   passport.authenticate("facebook", {
-//     successRedirect: "/api/datos",
-//     failureRedirect: "/faillogin",
-//   }),
-// );
+router.get(
+  "/auth/facebook/callback",
+  passport.authenticate("facebook", {
+    successRedirect: "/home",
+    failureRedirect: "/faillogin",
+  }),
+);
 
-// router.get("/faillogin", (req, res) => {
-//   res.status(401).send({ error: "no se pudo autenticar con facebook" });
-// });
+router.get("/faillogin", (req, res) => {
+  res.status(401).send({ error: "no se pudo autenticar con facebook" });
+});
 
 module.exports = router;
