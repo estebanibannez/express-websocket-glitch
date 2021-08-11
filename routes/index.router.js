@@ -1,5 +1,6 @@
 const router = require("express").Router();
-const passport = require('passport');
+const passport = require("passport");
+const path = require("path");
 
 //navego a la ruta principal Protegida
 router.get("/", isAuthenticated, (req, res) => {
@@ -7,16 +8,17 @@ router.get("/", isAuthenticated, (req, res) => {
 });
 
 //navego a la ruta principal Protegida
-router.get("/home", isAuthenticated, (req, res) => {
-  return res.render("home");
+router.get("/home", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public", "home.html"));
+  // return res.render("home");
 });
 
 //middleware para ver si el usuario está autenticado.
 function isAuthenticated(req, res, next) {
-  if(req.isAuthenticated()) {
+  if (req.isAuthenticated()) {
     return next();
   }
 
-  res.redirect('/signin')
+  res.redirect("/signin");
 }
 module.exports = router;
