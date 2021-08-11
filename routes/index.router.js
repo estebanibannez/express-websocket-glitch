@@ -9,8 +9,15 @@ router.get("/", isAuthenticated, (req, res) => {
 
 //navego a la ruta principal Protegida
 router.get("/home", isAuthenticated, (req, res) => {
-  res.sendFile(path.join(__dirname, "../public", "home.html"));
-  // return res.render("home");
+  // res.sendFile(path.join(__dirname, "../public", "home.html"));
+
+  return res.render("home", {
+    // Enviamos como variables un título
+    // y objeto 'user' que contiene toda
+    // la información del usuario y viaja en el 'request'
+    title: "Ejemplo de Passport JS",
+    user: req.user,
+  });
 });
 
 //middleware para ver si el usuario está autenticado.
