@@ -1,105 +1,100 @@
 const express = require("express");
 const app = express();
-const handlebars = require("express-handlebars");
+const exphbs = require("express-handlebars");
+const passport = require("passport");
+const flash = require("connect-flash");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const morgan = require("morgan");
-const config = require("./config/config");
 const MongoStore = require("connect-mongo");
+const path = require("path");
+const config = require("./config/config");
 
-require(`./data/conectiondb`);
-//socket io
-const server = require("http").createServer(app);
-const io = require("socket.io")(server);
-const advancedOptions = { useNewUrlParser: true, useUnifiedTopology: true };
-//configuraciones middlewares
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-app.use(cookieParser());
+// ------------------------- MIDDLEWARES -----------------------
 app.use(morgan("dev"));
-
+app.use(express.urlencoded({extended: true})); // New
+app.use(express.json());
 app.use(cookieParser());
+
+// ------------------------- SETTINGS --------------------------
+require("dotenv").config();
+require(`./data/conectiondb`);
+require(`./passport/local-auth`);
+
+// -------------------------------------------------------------
+
+
+// ------------------ VIEW ENGINE CONFIG -----------------------
+app.engine('hbs', exphbs( {extname: '.hbs' }));
+app.set('view engine', 'hbs');
+
+// app.engine(
+//   "hbs",
+//   exphbs({
+//     defaultLayout: "main",
+//     layoutsDir: path.join(app.get("views"), "layouts"),
+//     partialsDir: path.join(app.get("views"), "partials"),
+//     extname: ".hbs",
+//   }),
+// );
+// app.set("views", path.join(__dirname, "views"));
+// app.set("view engine", "hbs");
+// -------------------------------------------------------------
+
+
+// ------------------------- STATIC FILES ----------------------
+app.use(express.static(path.join(__dirname, "public")));
+// -------------------------------------------------------------
+
+app.use(flash());
+
+app.use(require('express-session')({
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: false
+}));
+
 app.use(
   session({
     store: MongoStore.create({
-      //En Atlas connect App :  Make sure to change the node version to 2.2.12:
-      mongoUrl: config.MONGO_URL,
-      mongoOptions: advancedOptions,
+      mongoUrl: config.MONGO_DB.URI,
+      mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
     }),
     secret: "secret",
     resave: false,
     saveUninitialized: false,
-    // cookie: {
-    //   expires: new Date().getTime() + minutes * 60 * 1000,
-    // },
+    cookie: {
+      maxAge: config.TIEMPO_EXPIRACION,
+    },
   }),
 );
 
-//configuracion de handlebars
-app.engine(
-  "hbs",
-  handlebars({
-    extname: ".hbs",
-    defaultLayout: "index.hbs",
-    layoutsDir: `${__dirname}/views/layouts`,
-    partialsDir: `${__dirname}/views/partials`,
-  }),
-);
+app.use(passport.initialize());
+app.use(passport.session());
 
-//EXPORTANDO ROUTES
-const ProductosRouter = require("./routers/productos.router");
-const productos = require("./controllers/productos.controller");
-const mensajes = require("./controllers/mensajes.controller");
+// app.use((req, res, next) => {
+//   app.locals.signinMessage = req.flash("signinMessage");
+//   app.locals.signupMessage = req.flash("signupMessage");
+//   app.locals.user = req.user;
+//   // console.log(app.locals)
+//   next();
+// });
+// -------------------------------------------------------------
 
-// const Mensaje = require("./models/message");
-// // const mensaje = new Mensaje();
-
-//se establece el motor de plantilla
-app.set("view engine", "hbs");
-app.set("views", __dirname + "/views");
-
-io.on("connection", (socket) => {
-  console.log(`cliente con ID: ${socket.id} CONECTADO AL WEBSOCKET.`);
-  socket.emit("productos", productos.listar());
-
-  //escuchando mensajes enviados por cliente
-  socket.on("update", (data) => {
-    //se propaga a todos los clientes conectados.
-    io.sockets.emit("productos", productos.listar());
-  });
-
-  //mensajes
-  socket.emit("messages", mensajes.readMessages());
-
-  socket.on("new-message", (payload) => {
-    console.log("llego al servidor un nuevo msg", payload);
-    mensajes.addMessage(payload);
-
-    socket.emit("messages", mensajes.readMessages());
-  });
+// ---------------------------- ROUTES -------------------------
+require("require-all")({
+  dirname: path.join(__dirname, "routes"),
+  map: (name, path) => {
+    app.use("/", require(path));
+  },
 });
 
+// -------------------------------------------------------------
 // middleware para excepciones no atrapadas
 app.use((err, req, res, next) => {
   console.error(err.message);
   return res.status(500).send("Algo se rompio!");
 });
 
-//Seteo Rutas Producto
-app.use("/api", ProductosRouter);
-app.use("/api", require("./routers/login.router"));
 
-//se establece ruta que expone archivos html , css, js
-app.use(express.static(__dirname + "/public"));
-
-server.listen(config.PORT, () => {
-  console.log(
-    `servidor escuchando en puerto : http://localhost:${config.PORT}`,
-  );
-});
-
-// en caso de error
-server.on("error", (error) => {
-  console.log("error en el servidor:", error);
-});
+module.exports = app;

@@ -21,7 +21,6 @@ socket.on("messages", (mensajes) => {
 /* obtengo las referencias a los formularios */
 const form = document.querySelector("formulario");
 
-
 function send(e, form) {
   debugger;
   e.preventDefault();
@@ -49,6 +48,26 @@ function send(e, form) {
       console.log("ERROR", error);
     });
 }
+
+const btnCerrarSesion = document.querySelector("#btnCerrarSesion");
+
+btnCerrarSesion.addEventListener("click", () => {
+  console.log("click");
+  fetch("/api/logout", {
+    headers: {
+      "content-type": "application/json",
+    },
+    method: "GET",
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      debugger;
+      console.log("respuesta", data);
+    })
+    .catch((error) => {
+      console.log("ERROR", error);
+    });
+});
 
 socket.on("disconnect", () => {
   lblOnline.style.display = "none";
@@ -113,6 +132,7 @@ function renderMessages(data) {
 //listener que envia los mensajes al server
 
 const btnEnviar = document.querySelector("#btnEnviar");
+
 const formMessages = document.querySelector("#formMessages");
 
 formMessages.addEventListener("submit", (e) => {

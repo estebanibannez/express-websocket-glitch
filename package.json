@@ -1,31 +1,39 @@
 {
-  "name": "desafio-8",
+  "name": "desafio-Coder",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "connect-flash": "^0.1.1",
     "connect-mongo": "^4.4.1",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
-    "express-handlebars": "^5.3.2",
+    "express-handlebars": "^5.3.3",
     "express-session": "^1.17.2",
     "hbs": "^4.1.2",
     "moment": "^2.29.1",
     "mongoose": "^5.13.5",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.7",
     "passport": "^0.4.1",
+    "passport-facebook": "^3.0.0",
     "passport-local": "^1.0.0",
+    "path": "^0.12.7",
+    "require-all": "^3.0.0",
     "session-file-store": "^1.5.0",
     "socket.io": "^4.1.2"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "handlebars": "^4.7.7",
+    "nodemon": "^2.0.12"
   }
 }

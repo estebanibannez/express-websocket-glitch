@@ -1,19 +1,42 @@
-class Login {
-  constructor() {}
+const path = require("path");
 
-  async logeo(req) {
-    try {
-      if (req.session.contador) {
-        req.session.contador++;
-        res.send(`Ud ha visitado el sitio ${req.session.contador} veces.`);
-      } else {
-        req.session.contador = 1;
-        res.send("Bienvenido a su primera visita al sitio!");
-      }
-    } catch (error) {
-      throw error;
-    }
+exports.getSignin = (req, res) => {
+  res.sendFile(path.join(__dirname, "../public", "signin.html"));
+};
+
+exports.postSignin = (req, res) => {
+  try {
+    const { username, password } = req.body;
+    res.redirect("/home");
+  } catch (error) {}
+};
+
+exports.getSignup = (req, res) => {
+  try {
+    res.sendFile(path.join(__dirname, "../public", "signup.html"));
+  } catch (error) {
+    console.log(error);
   }
-}
+};
+exports.postSignup = (req, res) => {
+  const user = req.user;
+  //     //console.log(user);
+  //     return res.status(200).json({
+  //       status: "ok",
+  //       message: "Usuario creado éxitosamente",
+  //       body: user,
+  //     });
+  res.send("HOLA!");
+};
 
-module.exports = new Login();
+exports.getFaillogin = (req, res) => {
+  res.sendFile(path.join(__dirname, "../public", "login-error.html"));
+};
+
+exports.getFailsignup = (req, res) => {};
+
+exports.getLogout = (req, res) => {
+  req.logout();
+  // res.json({ status: 200, message: "session closed" });
+  res.redirect("/signin");
+};

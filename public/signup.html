@@ -1,0 +1,61 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <title>APP Express!</title>
+    <!-- bootstrap-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+    <!-- font awesome-->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" type="text/css" href="./style.css" />
+    <link rel="stylesheet" type="text/css" href="/css/signin.css" />
+</head>
+
+<body class="container mt-5">
+    <main>
+        <form class="form-signup" method="post" action="/signup">
+            <div class="container my-5">
+
+                <h1>SIGNUP USUARIO</h1>
+                <div class="form-group">
+                    <input name="username" placeholder="Username" class="form-control" type="text" required />
+                </div>
+                <div class="form-group">
+                    <input name="password" placeholder="Password" class="form-control" type="password" required />
+                </div>
+
+                <br />
+
+                <div class="form-group">
+                    <input name="firstName" placeholder="firstname" class="form-control" type="text" required />
+                </div>
+
+                <div class="form-group">
+                    <input name="lastName" placeholder="lastname" class="form-control" type="text" required />
+                </div>
+
+                <div class="form-group">
+                    <input name="email" placeholder="email" class="form-control" type="email" required />
+                </div>
+
+                <div class="form-group text-center">
+                    <input class="btn btn-success my-3 btn-block" type="submit" value="Registrarse" />
+                </div>
+                <div class="form-group text-center">
+                    <a href="/signin" class="my-3" type="submit" />Volver</div>
+            </div>
+
+            </div>
+        </form>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>
