@@ -20,6 +20,14 @@ router.get("/home", isAuthenticated, (req, res) => {
   });
 });
 
+router.get("/profile", isAuthenticated, (req, res) => {
+  // res.sendFile(path.join(__dirname, "../public", "home.html"));
+
+  return res.render("profile", {
+    user: req.user,
+  });
+});
+
 //middleware para ver si el usuario está autenticado.
 function isAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
