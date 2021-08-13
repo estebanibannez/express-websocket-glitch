@@ -39,6 +39,11 @@ app.listen(config.PORT, () => {
     `============= servidor escuchando =============`,
   );
   console.log(`En puerto : http://localhost:${config.PORT}`);
+  console.log(
+    "\x1b[33m%s\x1b[0m",
+    `============= Proceso PID: ${process.pid} =============`,
+  );
+
 });
 // -------------------------------------------------------------
 

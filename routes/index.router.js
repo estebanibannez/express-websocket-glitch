@@ -36,4 +36,25 @@ function isAuthenticated(req, res, next) {
 
   res.redirect("/signin");
 }
+
+//navego a la ruta principal Protegida
+router.get("/info", (req, res) => {
+  // res.sendFile(path.join(__dirname, "../public", "home.html"));
+
+  const data = {
+    arg1: process.argv[2],
+    arg2: process.argv[3],
+    platform: process.platform,
+    nodeVersion: process.version,
+    memoryUse: process.memoryUsage(),
+    path: process.cwd(),
+    processId: process.pid,
+  };
+
+  return res.render("info", {
+    data: data,
+  });
+});
+
+
 module.exports = router;
