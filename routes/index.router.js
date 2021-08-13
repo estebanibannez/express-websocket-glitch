@@ -8,9 +8,24 @@ router.get("/", isAuthenticated, (req, res) => {
 });
 
 //navego a la ruta principal Protegida
-router.get("/home", (req, res) => {
-  res.sendFile(path.join(__dirname, "../public", "home.html"));
-  // return res.render("home");
+router.get("/home", isAuthenticated, (req, res) => {
+  // res.sendFile(path.join(__dirname, "../public", "home.html"));
+
+  return res.render("home", {
+    // Enviamos como variables un título
+    // y objeto 'user' que contiene toda
+    // la información del usuario y viaja en el 'request'
+    title: "Ejemplo de Passport JS",
+    user: req.user,
+  });
+});
+
+router.get("/profile", isAuthenticated, (req, res) => {
+  // res.sendFile(path.join(__dirname, "../public", "home.html"));
+
+  return res.render("profile", {
+    user: req.user,
+  });
 });
 
 //middleware para ver si el usuario está autenticado.
@@ -21,4 +36,25 @@ function isAuthenticated(req, res, next) {
 
   res.redirect("/signin");
 }
+
+//navego a la ruta principal Protegida
+router.get("/info", (req, res) => {
+  // res.sendFile(path.join(__dirname, "../public", "home.html"));
+
+  const data = {
+    arg1: process.argv[2],
+    arg2: process.argv[3],
+    platform: process.platform,
+    nodeVersion: process.version,
+    memoryUse: process.memoryUsage(),
+    path: process.cwd(),
+    processId: process.pid,
+  };
+
+  return res.render("info", {
+    data: data,
+  });
+});
+
+
 module.exports = router;

@@ -19,7 +19,8 @@ app.use(cookieParser());
 // ------------------------- SETTINGS --------------------------
 require("dotenv").config();
 require(`./data/conectiondb`);
-require(`./passport/local-auth`);
+// require(`./passport/local-auth`);
+require(`./passport/facebook-auth`);
 
 // -------------------------------------------------------------
 
