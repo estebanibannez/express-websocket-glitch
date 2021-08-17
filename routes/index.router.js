@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
 const path = require("path");
-const cp = require("child_process");
+const numCPUs = require('os').cpus().length;
 
 //navego a la ruta principal Protegida
 router.get("/", isAuthenticated, (req, res) => {
@@ -48,6 +48,7 @@ router.get("/info", (req, res) => {
     memoryUse: process.memoryUsage(),
     path: process.cwd(),
     processId: process.pid,
+    numProcesor: numCPUs | ""
   };
 
   return res.render("info", {
