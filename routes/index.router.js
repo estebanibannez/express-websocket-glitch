@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
 const path = require("path");
+const numCPUs = require('os').cpus().length;
 
 //navego a la ruta principal Protegida
 router.get("/", isAuthenticated, (req, res) => {
@@ -39,8 +40,6 @@ function isAuthenticated(req, res, next) {
 
 //navego a la ruta principal Protegida
 router.get("/info", (req, res) => {
-  // res.sendFile(path.join(__dirname, "../public", "home.html"));
-
   const data = {
     arg1: process.argv[2],
     arg2: process.argv[3],
@@ -49,6 +48,7 @@ router.get("/info", (req, res) => {
     memoryUse: process.memoryUsage(),
     path: process.cwd(),
     processId: process.pid,
+    numProcesor: numCPUs | ""
   };
 
   return res.render("info", {
@@ -56,5 +56,17 @@ router.get("/info", (req, res) => {
   });
 });
 
+router.get("/randoms", (req, res) => {
+  let cantidad = req.query.cant;
+
+  const computo = fork("../serverChild.js");
+  computo.send(cantidad || 10000000);
+
+  computo.on("message", function (sum) {
+    // Receive results from child process
+    console.log("received: " + sum);
+    res.end(`El array de numeros es  ${JSON.stringify(sum)}`);
+  });
+});
 
 module.exports = router;
