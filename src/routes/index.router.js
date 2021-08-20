@@ -1,11 +1,12 @@
 const router = require("express").Router();
 const passport = require("passport");
 const path = require("path");
-const numCPUs = require('os').cpus().length;
+const config = require("../config/config");
+const numCPUs = require("os").cpus().length;
 
 //navego a la ruta principal Protegida
 router.get("/", isAuthenticated, (req, res) => {
-  return res.render("home");
+  return res.redirect("/signin");
 });
 
 //navego a la ruta principal Protegida
@@ -38,6 +39,14 @@ function isAuthenticated(req, res, next) {
   res.redirect("/signin");
 }
 
+router.get("/datos", (req, res) => {
+  res.send(
+    `Servidor express <span style="color:blueviolet;">(Nginx)</span> en ${config.PORT} - <b>PID ${
+      process.pid
+    }</b> - ${new Date().toLocaleString()}`,
+  );
+});
+
 //navego a la ruta principal Protegida
 router.get("/info", (req, res) => {
   const data = {
@@ -48,7 +57,7 @@ router.get("/info", (req, res) => {
     memoryUse: process.memoryUsage(),
     path: process.cwd(),
     processId: process.pid,
-    numProcesor: numCPUs | ""
+    numProcesor: numCPUs | "",
   };
 
   return res.render("info", {

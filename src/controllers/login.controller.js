@@ -8,6 +8,8 @@ exports.postSignin = (req, res) => {
   try {
     const { username, password } = req.body;
     res.redirect("/home");
+
+    // res.sendFile(path.join(__dirname, "../public", "login-error.html"));
   } catch (error) {}
 };
 
@@ -26,7 +28,7 @@ exports.postSignup = (req, res) => {
   //       message: "Usuario creado éxitosamente",
   //       body: user,
   //     });
-  res.send("HOLA!");
+  res.send("Usuario creado.!");
 };
 
 exports.getFaillogin = (req, res) => {

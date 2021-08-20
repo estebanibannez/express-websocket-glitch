@@ -5,7 +5,7 @@ const bcrypt = require("../utils/utils");
 
 //-------- LOGIN PASSPORT -------//
 passport.use(
-  "local-signin",
+  "signin",
   new LocalStrategy(
     {
       passReqToCallback: true,
@@ -44,7 +44,7 @@ passport.use(
 
 //-------- REGISTER PASSPORT -------//
 
-passport.use('local-signup', new LocalStrategy({
+passport.use('signup', new LocalStrategy({
   passReqToCallback: true
 },
   function (req, username, password, done) {
@@ -97,6 +97,6 @@ passport.serializeUser(function (user, done) {
 
 passport.deserializeUser(async (id, done) => {
   const user = await User.findById(id);
-  console.log('deserializacipn',user)
+  console.log('deserialización',user)
   done(null, user);
 });

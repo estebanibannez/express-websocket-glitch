@@ -1,5 +1,5 @@
 const fs = require('fs');
-const json_productos = fs.readFileSync('./data/productos.json', 'utf-8');
+const json_productos = fs.readFileSync('./src/data/productos.json', 'utf-8');
 let productos = JSON.parse(json_productos);
 
 
