@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "fork":"pm2 start index.js --name=servidor_1 --watch",
-    "cluster":"pm2 start index.js --name=servidor_1 --watch -i max",
+    "fork":"pm2 start index.js --name=servidor_1 --watch -- 8081",
+    "cluster":"pm2 start index.js --name=servidor_1 --watch -i max -- 8082",
     "forever":"forever start ./index.js",
     "start": "node index.js",
     "dev": "nodemon index.js"

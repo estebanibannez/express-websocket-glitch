@@ -7,10 +7,11 @@ router.get("/signin", controller.getSignin);
 
 router.post(
   "/signin",
-  passport.authenticate("local-signin", {
+  passport.authenticate("signin", {
     failureRedirect: "/faillogin",
+    successRedirect: "/home"
   }),
-  controller.postSignin,
+  // controller.postSignin,
 );
 
 // ---------------SIGNUP------------------
@@ -18,7 +19,7 @@ router.get("/signup", controller.getSignup);
 
 router.post(
   "/signup",
-  passport.authenticate("local-signup", { failureRedirect: "/failsignup" }),
+  passport.authenticate("signup", { failureRedirect: "/failsignup" }),
   controller.postSignup,
 );
 

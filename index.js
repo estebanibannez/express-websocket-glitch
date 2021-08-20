@@ -1,13 +1,13 @@
 const app = require("./server");
-const config = require("./config/config");
+const config = require("./src/config/config");
 
 // ------------------------- WEB SOCKETS ----------------------
 
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 
-const productos = require("./controllers/productos.controller");
-const mensajes = require("./controllers/mensajes.controller");
+const productos = require("./src/controllers/productos.controller");
+const mensajes = require("./src/controllers/mensajes.controller");
 
 io.on("connection", (socket) => {
   console.log(`cliente con ID: ${socket.id} CONECTADO AL WEBSOCKET.`);
@@ -32,7 +32,7 @@ io.on("connection", (socket) => {
 
 // -------------------------------------------------------------
 // ---------------------------- APP LISTEN ---------------------
-app.listen(config.PORT, () => {
+app.listen(config.PORT || 8080, () => {
   console.log(
     "\x1b[33m%s\x1b[0m",
     `============= servidor escuchando =============`,

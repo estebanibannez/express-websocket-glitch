@@ -8,27 +8,26 @@ const session = require("express-session");
 const morgan = require("morgan");
 const MongoStore = require("connect-mongo");
 const path = require("path");
-const config = require("./config/config");
+const config = require("./src/config/config");
 
 // ------------------------- MIDDLEWARES -----------------------
 app.use(morgan("dev"));
-app.use(express.urlencoded({extended: true})); // New
+app.use(express.urlencoded({ extended: true })); // New
 app.use(express.json());
 app.use(cookieParser());
 
 // ------------------------- SETTINGS --------------------------
 require("dotenv").config();
-require(`./data/conectiondb`);
-// require(`./passport/local-auth`);
-require(`./passport/facebook-auth`);
+require(`./src/data/conectiondb`);
+require(`./src/passport/local-auth`);
+// require(`./src/passport/facebook-auth`);
 
 // -------------------------------------------------------------
 
-
 // ------------------ VIEW ENGINE CONFIG -----------------------
-app.engine('hbs', exphbs( {extname: '.hbs' }));
-app.set('view engine', 'hbs');
-
+app.engine("hbs", exphbs({ extname: ".hbs" }));
+app.set("view engine", "hbs");
+app.set('views', path.join(__dirname, '/src/views'));
 // app.engine(
 //   "hbs",
 //   exphbs({
@@ -42,18 +41,19 @@ app.set('view engine', 'hbs');
 // app.set("view engine", "hbs");
 // -------------------------------------------------------------
 
-
 // ------------------------- STATIC FILES ----------------------
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "./src/public")));
 // -------------------------------------------------------------
 
 app.use(flash());
 
-app.use(require('express-session')({
-  secret: 'secret',
-  resave: true,
-  saveUninitialized: false
-}));
+app.use(
+  require("express-session")({
+    secret: "secret",
+    resave: true,
+    saveUninitialized: false,
+  }),
+);
 
 app.use(
   session({
@@ -84,7 +84,7 @@ app.use(passport.session());
 
 // ---------------------------- ROUTES -------------------------
 require("require-all")({
-  dirname: path.join(__dirname, "routes"),
+  dirname: path.join(__dirname, "./src/routes"),
   map: (name, path) => {
     app.use("/", require(path));
   },
@@ -94,8 +94,9 @@ require("require-all")({
 // middleware para excepciones no atrapadas
 app.use((err, req, res, next) => {
   console.error(err.message);
-  return res.status(500).send("Algo se rompio!");
+  return res
+    .status(500)
+    .send({ status: 500, message: `internal error server ${err.message}` });
 });
-
 
 module.exports = app;
