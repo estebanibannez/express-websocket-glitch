@@ -3,7 +3,7 @@ const passport = require("passport");
 const path = require("path");
 const config = require("../config/config");
 const numCPUs = require("os").cpus().length;
-
+const { fork } = require('child_process');
 //navego a la ruta principal Protegida
 router.get("/", isAuthenticated, (req, res) => {
   return res.redirect("/signin");
@@ -68,12 +68,11 @@ router.get("/info", (req, res) => {
 router.get("/randoms", (req, res) => {
   let cantidad = req.query.cant;
 
-  const computo = fork("../serverChild.js");
+  const computo = fork("./serverChild.js");
   computo.send(cantidad || 10000000);
 
   computo.on("message", function (sum) {
     // Receive results from child process
-    console.log("received: " + sum);
     res.end(`El array de numeros es  ${JSON.stringify(sum)}`);
   });
 });
