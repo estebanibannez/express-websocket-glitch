@@ -17,6 +17,21 @@ app.use(express.urlencoded({ extended: true })); // New
 app.use(express.json());
 app.use(cookieParser());
 
+log4js.configure({
+  appenders: {
+      loggerConsole: { type: "console" },
+      loggerErrorWarns: { type: 'file', filename: './logs/warn.log' },
+      loggerFileErrors: { type: 'file', filename: './logs/error.log' }
+  },
+  categories: {
+    
+      default: { appenders: ["loggerConsole"], level: "trace" },
+      consola: { appenders: ["loggerConsole"], level: "trace" },
+      warns: { appenders: ["loggerErrorWarns"], level: "warn" },
+      error: { appenders: ["loggerFileErrors"], level: "error" }
+  }
+});
+
 // ------------------------- SETTINGS --------------------------
 require("dotenv").config();
 require(`./src/data/conectiondb`);
@@ -91,19 +106,7 @@ require("require-all")({
   },
 });
 
-log4js.configure({
-  appenders: {
-      miLoggerConsole: { type: "console" },
-      loggerError: { type: 'file', filename: 'infoError.log' },
-      miLoggerFile2: { type: 'file', filename: 'info2.log' }
-  },
-  categories: {
-      consola: { appenders: ["miLoggerConsole"], level: "debug" },
-      log: { appenders: ["loggerError"], level: "warn" },
-      archivo2: { appenders: ["loggerError"], level: "info" },
-      todos: { appenders: ["miLoggerConsole", "miLoggerFile"], level: "error" }
-  }
-});
+
 
 // -------------------------------------------------------------
 // middleware para excepciones no atrapadas

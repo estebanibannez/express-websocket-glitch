@@ -3,7 +3,12 @@ const passport = require("passport");
 const path = require("path");
 const config = require("../config/config");
 const numCPUs = require("os").cpus().length;
-const { fork } = require('child_process');
+const { fork } = require("child_process");
+const log4js = require("log4js");
+const logger = log4js.getLogger('consola');
+// const loggerError = log4js.getLogger('error');
+
+
 //navego a la ruta principal Protegida
 router.get("/", isAuthenticated, (req, res) => {
   return res.redirect("/signin");
@@ -24,7 +29,7 @@ router.get("/home", isAuthenticated, (req, res) => {
 
 router.get("/profile", isAuthenticated, (req, res) => {
   // res.sendFile(path.join(__dirname, "../public", "home.html"));
-
+  logger.trace("llamada a Profile");
   return res.render("profile", {
     user: req.user,
   });
@@ -40,15 +45,18 @@ function isAuthenticated(req, res, next) {
 }
 
 router.get("/datos", (req, res) => {
+  logger.trace("llamada a Datos");
+  // loggerError.error("error test");
   res.send(
-    `Servidor express <span style="color:blueviolet;">(Nginx)</span> en ${config.PORT} - <b>PID ${
-      process.pid
-    }</b> - ${new Date().toLocaleString()}`,
+    `Servidor express <span style="color:blueviolet;">(Nginx)</span> en ${
+      config.PORT
+    } - <b>PID ${process.pid}</b> - ${new Date().toLocaleString()}`,
   );
 });
 
 //navego a la ruta principal Protegida
 router.get("/info", (req, res) => {
+  logger.trace("llamada a Info");
   const data = {
     arg1: process.argv[2],
     arg2: process.argv[3],
@@ -59,6 +67,7 @@ router.get("/info", (req, res) => {
     processId: process.pid,
     numProcesor: numCPUs | "",
   };
+  const logger = log4js.getLogger();
 
   return res.render("info", {
     data: data,
@@ -66,6 +75,7 @@ router.get("/info", (req, res) => {
 });
 
 router.get("/randoms", (req, res) => {
+  logger.trace("llamada a Randoms");
   let cantidad = req.query.cant;
 
   const computo = fork("./serverChild.js");

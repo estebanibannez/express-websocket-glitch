@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const passport = require("passport");
 const controller = require("../controllers/login.controller");
-
+const log4js = require("log4js");
+const logger = log4js.getLogger('error');
 // --------------- LOGIN -----------------
 router.get("/signin", controller.getSignin);
 
@@ -54,6 +55,7 @@ router.get(
 );
 
 router.get("/faillogin", (req, res) => {
+  logger.error("Ocurrió un error con el login");
   res.status(401).send({ error: "no se pudo autenticar con facebook" });
 });
 
