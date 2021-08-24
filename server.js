@@ -9,6 +9,7 @@ const morgan = require("morgan");
 const MongoStore = require("connect-mongo");
 const path = require("path");
 const config = require("./src/config/config");
+const log4js = require("log4js");
 
 // ------------------------- MIDDLEWARES -----------------------
 app.use(morgan("dev"));
@@ -88,6 +89,20 @@ require("require-all")({
   map: (name, path) => {
     app.use("/", require(path));
   },
+});
+
+log4js.configure({
+  appenders: {
+      miLoggerConsole: { type: "console" },
+      loggerError: { type: 'file', filename: 'infoError.log' },
+      miLoggerFile2: { type: 'file', filename: 'info2.log' }
+  },
+  categories: {
+      consola: { appenders: ["miLoggerConsole"], level: "debug" },
+      log: { appenders: ["loggerError"], level: "warn" },
+      archivo2: { appenders: ["loggerError"], level: "info" },
+      todos: { appenders: ["miLoggerConsole", "miLoggerFile"], level: "error" }
+  }
 });
 
 // -------------------------------------------------------------
