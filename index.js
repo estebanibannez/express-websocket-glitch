@@ -1,6 +1,7 @@
 const app = require("./server");
 const config = require("./src/config/config");
-
+const log4js = require("log4js");
+const logger = log4js.getLogger('consola');
 // ------------------------- WEB SOCKETS ----------------------
 
 const server = require("http").createServer(app);
@@ -33,11 +34,12 @@ io.on("connection", (socket) => {
 // -------------------------------------------------------------
 // ---------------------------- APP LISTEN ---------------------
 app.listen(config.PORT || 8080, () => {
+  logger.info("servidor escuchando en puerto: " + config.PORT)
   console.log(
     "\x1b[33m%s\x1b[0m",
     `============= servidor escuchando =============`,
   );
-  console.log(`En puerto : http://localhost:${config.PORT}`);
+  console.log(`http://localhost:${config.PORT}`);
   console.log(
     "\x1b[33m%s\x1b[0m",
     `============= Proceso PID: ${process.pid} =============`,
@@ -48,5 +50,6 @@ app.listen(config.PORT || 8080, () => {
 
 // ------------------------- EXCEPT ERROR ----------------------
 app.on("error", (error) => {
+  logger.error("ha ocurrido un error: " + error)
   console.log("\x1b[41m", `error en el servidor: ${error}`);
 });
