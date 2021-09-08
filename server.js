@@ -35,8 +35,8 @@ log4js.configure({
 // ------------------------- SETTINGS --------------------------
 require("dotenv").config();
 require(`./src/data/conectiondb`);
-require(`./src/passport/local-auth`);
-// require(`./src/passport/facebook-auth`);
+// require(`./src/passport/local-auth`);
+require(`./src/passport/facebook-auth`);
 
 // -------------------------------------------------------------
 

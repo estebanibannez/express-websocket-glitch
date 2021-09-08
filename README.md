@@ -13,7 +13,8 @@ _Proyecto coderhouse _
 * [Handlebars](https://www.npmjs.com/package/hbs/) - Motor de plantillas
 
 
-
+## endpoint facebook strategy 
+´http://localhost:8080/auth/facebook´
 
 ---
 ⌨️ por [EstebanIbannez](https://github.com/estebanibannez) 😊

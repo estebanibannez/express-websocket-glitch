@@ -1,4 +1,5 @@
 const path = require("path");
+const sendMail = require("../utils/mails");
 
 exports.getSignin = (req, res) => {
   res.sendFile(path.join(__dirname, "../public", "signin.html"));
@@ -38,6 +39,14 @@ exports.getFaillogin = (req, res) => {
 exports.getFailsignup = (req, res) => {};
 
 exports.getLogout = (req, res) => {
+
+    //envia correo ethereal
+    sendMail.sendMail(
+      "Servidor Node.js test",
+      "hank.fay91@ethereal.email",
+      "LOGOUT",
+      `hora de logout ${new Date()}`,
+    );
   req.logout();
   // res.json({ status: 200, message: "session closed" });
   res.redirect("/signin");

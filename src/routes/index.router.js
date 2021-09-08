@@ -1,13 +1,10 @@
 const router = require("express").Router();
-const passport = require("passport");
-const path = require("path");
 const config = require("../config/config");
 const numCPUs = require("os").cpus().length;
 const { fork } = require("child_process");
 const log4js = require("log4js");
-const logger = log4js.getLogger('consola');
-// const loggerError = log4js.getLogger('error');
-
+const logger = log4js.getLogger("consola");
+const sendMail = require("../utils/mails");
 
 //navego a la ruta principal Protegida
 router.get("/", isAuthenticated, (req, res) => {
@@ -16,7 +13,23 @@ router.get("/", isAuthenticated, (req, res) => {
 
 //navego a la ruta principal Protegida
 router.get("/home", isAuthenticated, (req, res) => {
+  debugger;
+  let userProfile = "??";
   // res.sendFile(path.join(__dirname, "../public", "home.html"));
+
+  //envia correo ethereal
+  sendMail.sendMail(
+    "Servidor Node.js test",
+    "hank.fay91@ethereal.email",
+    "LOGIN",
+    `Nombre ${
+      req.user.name
+      // userProfile._json.name
+    } hora de log ${new Date()} foto de perfil ${
+      req.user.picture["data"].url
+      // userProfile._json.picture.data.url
+    }`,
+  );
 
   return res.render("home", {
     // Enviamos como variables un título
