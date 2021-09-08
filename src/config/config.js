@@ -15,7 +15,9 @@ module.exports = {
   FACEBOOK_CLIENT_ID: process.argv[2] || process.env.FACEBOOK_CLIENT_ID,
   FACEBOOK_CLIENT_SECRET: process.argv[3] || process.env.FACEBOOK_CLIENT_SECRET,
   GMAIL_USER: process.env.GMAIL_USER || "hank.fay91@ethereal.email",
-  GMAIL_PASS: process.env.GMAIL_USER || "mtC5C4YrtpjTYRZKPB"
+  GMAIL_PASS: process.env.GMAIL_PASS || "mtC5C4YrtpjTYRZKPB",
+  ACCOUNT_SID: process.env.ACCOUNT_SID || "AC88750c917a154293f1d60ac9abf26267",
+  AUTH_TOKEN: process.env.AUTH_TOKEN || "d9f75b2c53a2ecaa1d3c8d3e661049c4",
 
   // FACEBOOK_CLIENT_ID: process.env.FACEBOOK_CLIENT_ID || 354346826187484,
   // FACEBOOK_CLIENT_SECRET:
