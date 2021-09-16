@@ -1,31 +1,30 @@
-const fs = require("fs");
-const path = require("path");
+const Message = require('../models/message');
 
-var moment = require("moment");
+class MessageController {
 
-class Mensajes {
-  constructor() {
-    this.init();
-  }
+    constructor() {
+        //super(Message);
+    }
 
-  addMessage(message) {
-    //agrego fecha hora del mensaje
-    message.date = moment(new Date()).format("DD/MM/YYYY h:mm:ss");
+    async findAll() {
+        return await Message.find({});
+    }
 
-    const data = this.readMessages();
-    data.push(message);
-    const dbpath = path.join(__dirname, "../data/mensajes.json");
-    fs.writeFileSync(dbpath, JSON.stringify(data));
-  }
+    async findById(id) {
+        return await Message.findById(id);
+    }
 
-  init() {
-    this.readMessages();
-  }
+    async create(data) {
+        return await Message.create(data);
+    }
 
-  readMessages() {
-    const data = require("../data/mensajes.json");
-    return data;
-  }
+    async update(id, data) {
+        return await Message.findByIdAndUpdate(id, data);
+    }
+
+    async delete(id) {
+        return await Message.findByIdAndDelete(id);
+    }
 }
 
-module.exports = new Mensajes();
+module.exports = new MessageController();

@@ -5,29 +5,47 @@ const log4js = require("log4js");
 const logger = log4js.getLogger("error");
 
 // --------------- LOGIN -----------------
-router.get("/signin", controller.getSignin);
+router.get("/login", async (req, res) => {
+  try {
+    res.render("signin", {});
+  } catch (error) {}
+});
 
 router.post(
-  "/signin",
-  passport.authenticate("signin", {
+  "/login",
+  passport.authenticate("login", {
     failureRedirect: "/faillogin",
     successRedirect: "/home",
   }),
-  // controller.postSignin,
 );
 
-// ---------------SIGNUP------------------
-router.get("/signup", controller.getSignup);
+// ---------------REGISTRO------------------
+router.get("/register", async (req, res) => {
+  try {
+    res.render("signup", {});
+  } catch (error) {}
+});
 
 router.post(
-  "/signup",
-  passport.authenticate("signup", { failureRedirect: "/failsignup" }),
-  controller.postSignup,
+  "/register",
+  passport.authenticate("registro", {
+    successRedirect: "/home",
+    failureRedirect: "/register",
+    failureFlash: true,
+  }),
 );
 
-router.get("/failsignup", controller.getFailsignup);
+router.get("/failsignup", async (req, res) => {
+  try {
+    return res.render("signup-error");
+  } catch (error) {}
+});
 
-router.get("/faillogin", controller.getFaillogin);
+router.get("/faillogin", async (req, res) => {
+  try {
+    return res.render("login-error");
+  } catch (error) {}
+});
 
 router.get("/logout", controller.getLogout);
 

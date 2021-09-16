@@ -1,40 +1,46 @@
-
+    {{>navigation name=firstName }}
+    
     <div class="container mt-3">
         <div class="jumbotron">
             <h1>Ingrese Producto</h1>
             <br>
 
-            <form autocomplete="off" novalidate id="formulario" onsubmit="send(event,this)">
+            <form autocomplete="off" novalidate id="formulario" method="post" action="/productos/guardar">
                 <!-- Campo nombre del producto -->
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
-                    <input id="nombre" class="form-control" type="text" name="title" required>
+                    <input id="nombre" class="form-control form-control-sm" type="text" name="nombre" required>
                 </div>
 
                 <!-- Campo precio del producto -->
                 <div class="form-group">
                     <label for="precio">Precio</label>
-                    <input id="precio" class="form-control" type="number" step="0.5" name="price" required>
+                    <input id="precio" class="form-control form-control-sm" type="number" step="0.5" name="precio" required>
                 </div>
 
-                <!-- Campo url de la foto del producto -->
-                <div class="form-group">
-                    <label for="foto">Foto URL</label>
-                    <input id="foto" class="form-control" type="text" name="thumbnail">
+                <div class="row">
+                    <div class="col">
+                    <!-- Campo precio del producto -->
+                        <div class="form-group">
+                            <label for="precio">Stock</label>
+                            <input id="precio" class="form-control form-control-sm" type="number" step="0.5" name="stock" required>
+                        </div>
+                    </div>
+                    <div class="col">
+                    <!-- Campo url de la foto del producto -->
+                        <div class="form-group">
+                            <label for="foto">Foto URL</label>
+                            <input id="foto" class="form-control form-control-sm" type="text" name="thumbnail">
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Botón de envío -->
                 <button type="submit" class="btn btn-success mt-3">Enviar</button>
             </form>
             <hr>
-            <button class="btn btn-info mt-3" onclick="location.href = '/api/productos/vista'">Vista handlebars
-                productos</button>
-            <br>
-            <br>
-            <div id="datos"></div>
 
-
-
+            {{>tabla productos=productos}}
 
             <div class="col-md-7 col-lg-7 order-md-last">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
@@ -76,7 +82,6 @@
                                     <button type="submit" id="btnEnviar"
                                         class="btn btn-secondary btn-block">Enviar</button>
                                 </div>
-
                         </form>
                     </div>
                 </div>
@@ -84,3 +89,4 @@
         </div>
     </div>
 
+    {{>footer}}

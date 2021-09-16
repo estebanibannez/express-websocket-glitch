@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io.connect();
 const lblOnline = document.querySelector("#lblOnline");
 const lblOffline = document.querySelector("#lblOffline");
 
@@ -8,66 +8,69 @@ socket.on("connect", () => {
   lblOnline.style.display = "";
   lblOffline.style.display = "none";
   socket.on("productos", function (productos) {
-    //console.log(productos);
+    debugger;
+    console.log(productos);
     document.getElementById("datos").innerHTML = data2TableJS(productos);
+  });
+
+  //recibo los mensajes del servidor
+  socket.on("messages", (mensajes) => {
+    debugger
+    renderMessages(mensajes);
   });
 });
 
-//recibo los mensajes del servidor
-socket.on("messages", (mensajes) => {
-  renderMessages(mensajes);
-});
-
 /* obtengo las referencias a los formularios */
-const form = document.querySelector("formulario");
+/* obtengo el formulario */
+const form = document.querySelector("form");
 
-function send(e, form) {
+form.addEventListener("submit", (event) => {
   debugger;
-  e.preventDefault();
+  event.preventDefault();
   const data = {
-    title: form[0].value,
-    price: form[1].value,
-    thumbnail: form[2].value,
+    nombre: form[0].value,
+    precio: form[1].value,
+    stock: form[2].value,
+    thumbnail: form[3].value,
   };
-  // const data = new FormData(document.getElementById("formulario"));
 
-  fetch("/api/productos/guardar", {
+  fetch("/productos/guardar", {
     headers: {
-      "content-type": "application/json",
+      "Content-Type": "application/json",
     },
     method: "POST",
     body: JSON.stringify(data),
   })
-    .then((response) => response.json())
+    .then((respuesta) => respuesta.json())
     .then((productos) => {
-      console.log("respuesta", productos);
+      debugger;
       form.reset();
       socket.emit("update", "ok");
     })
     .catch((error) => {
       console.log("ERROR", error);
     });
-}
-
-const btnCerrarSesion = document.querySelector("#btnCerrarSesion");
-
-btnCerrarSesion.addEventListener("click", () => {
-  console.log("click");
-  fetch("/api/logout", {
-    headers: {
-      "content-type": "application/json",
-    },
-    method: "GET",
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      debugger;
-      console.log("respuesta", data);
-    })
-    .catch((error) => {
-      console.log("ERROR", error);
-    });
 });
+
+// const btnCerrarSesion = document.querySelector("#btnCerrarSesion");
+
+// btnCerrarSesion.addEventListener("click", () => {
+//   console.log("click");
+//   fetch("/api/logout", {
+//     headers: {
+//       "content-type": "application/json",
+//     },
+//     method: "GET",
+//   })
+//     .then((response) => response.json())
+//     .then((data) => {
+//       debugger;
+//       console.log("respuesta", data);
+//     })
+//     .catch((error) => {
+//       console.log("ERROR", error);
+//     });
+// });
 
 socket.on("disconnect", () => {
   lblOnline.style.display = "none";
@@ -91,12 +94,14 @@ function data2TableJS(productos) {
           <tr>
               <th>Nombre</th>
               <th>Precio</th>
+              <th>Stock</th>
               <th>Foto</th>
           </tr>
           {{#each productos}}
           <tr>
-              <td>{{this.title}}</td>
-              <td>$ {{ this.price }}</td>
+              <td>{{this.nombre}}</td>
+              <td>$ {{ this.precio }}</td>
+              <td> {{ this.stock }}</td>
               <td><img width="50" src={{this.thumbnail}} alt="not found"></td>
           </tr>
           {{/each}}
@@ -112,15 +117,16 @@ function data2TableJS(productos) {
 //=============================== MENSAJES ============================//
 //funcion que renderiza los mensajes
 function renderMessages(data) {
+  debugger
   let html = data
     .map((elem) => {
       return `
             <li class="list-group-item d-flex justify-content-between lh-sm">
               <div>
                   <h6 class="my-0" style="color:#148DFF">${elem.email}</h6>
-                  <small style="color:#74BB00"><i>${elem.message}</i></small>
+                  <small style="color:#74BB00"><i>${elem.mensaje}</i></small>
               </div>
-              <span style="color:#591D03">${elem.date} </span>
+              <span style="color:#591D03">${elem.timestamp} </span>
             </li>
             `;
     })
@@ -140,18 +146,20 @@ formMessages.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const email = document.querySelector("#email").value;
-  const msg = document.querySelector("#message").value;
+  const msg = document.querySelector("#mensaje").value;
   let message = {
     email: email,
-    message: msg,
+    mensaje: msg,
+    autor: email,
     // date: new Date().toLocaleDateString(),
   };
-  debugger;
   if (email != "" && msg != "") {
     socket.emit("new-message", message);
     //limpio la caja mensaje luego de enviar por socket
-    document.querySelector("#message").value = "";
+    document.querySelector("#mensaje").value = "";
   }
 });
+
+
 
 //=============================== MENSAJES ============================//

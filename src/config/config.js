@@ -7,12 +7,12 @@ module.exports = {
   MONGO_DB: {
     URI:
       process.env.MONGO_URL ||
-      "mongodb+srv://root:root@cluster0.jdgnu.mongodb.net/sessiones?retryWrites=true&w=majority",
+      "mongodb://localhost:27017/chatcoder",
   },
   TIPODB: process.env.TIPODB || "MONGO",
   MONGO_URL_TYPE: process.env.MONGO_URL_TYPE || "LOCAL", //mongo - firebase
   TIEMPO_EXPIRACION: process.env.TIEMPO_EXPIRACION || 10000,
-  FACEBOOK_CLIENT_ID: process.argv[2] || process.env.FACEBOOK_CLIENT_ID,
+  FACEBOOK_CLIENT_ID: process.argv[2] || process.env.FACEBOOK_CLIENT_ID || "AC88750c917a154293f1d60ac9abf26267",
   FACEBOOK_CLIENT_SECRET: process.argv[3] || process.env.FACEBOOK_CLIENT_SECRET,
   GMAIL_USER: process.env.GMAIL_USER || "hank.fay91@ethereal.email",
   GMAIL_PASS: process.env.GMAIL_PASS || "mtC5C4YrtpjTYRZKPB",

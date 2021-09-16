@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
         integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 
 </head>
 
@@ -31,7 +32,8 @@
 
                         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                             <li><a href="/home" class="nav-link px-2 link-secondary">Home</a></li>
-                            <li><a href="#" class="nav-link px-2 link-dark">About</a></li>
+                            <li><a href="/info" class="nav-link px-2 link-dark">Info</a></li>
+                            <li><a href="/datos" class="nav-link px-2 link-dark">Datos</a></li>
 
                         </ul>
 
@@ -44,9 +46,9 @@
                                         class="rounded-circle" />
                                 </a>
                                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                                    <!-- <li><a class="dropdown-item" href="#">New project...</a></li>
-                                    <li><a class="dropdown-item" href="#">Settings</a></li> -->
-                                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                                    <!-- <li><a class="dropdown-item" href="#">New project...</a></li> -->
+                                    <!-- <li><a class="dropdown-item" href="/datos">Datos</a></li> 
+                                    <li><a class="dropdown-item" href="/profile">Profile</a></li> -->
                                     <li>
                                         <hr class="dropdown-divider" />
                                     </li>
@@ -62,38 +64,45 @@
         <div class="jumbotron">
             <h1>Ingrese Producto</h1>
             <br>
-
-            <form autocomplete="off" novalidate id="formulario" onsubmit="send(event,this)">
+            <form autocomplete="off" novalidate id="form" method="post" action="">
                 <!-- Campo nombre del producto -->
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
-                    <input id="nombre" class="form-control" type="text" name="title" required>
+                    <input id="nombre" class="form-control form-control-sm" type="text" name="nombre" required>
                 </div>
 
                 <!-- Campo precio del producto -->
                 <div class="form-group">
                     <label for="precio">Precio</label>
-                    <input id="precio" class="form-control" type="number" step="0.5" name="price" required>
+                    <input id="precio" class="form-control form-control-sm" type="number" step="0.5" name="precio"
+                        required>
                 </div>
 
-                <!-- Campo url de la foto del producto -->
-                <div class="form-group">
-                    <label for="foto">Foto URL</label>
-                    <input id="foto" class="form-control" type="text" name="thumbnail">
+                <div class="row">
+                    <div class="col">
+                        <!-- Campo precio del producto -->
+                        <div class="form-group">
+                            <label for="precio">Stock</label>
+                            <input id="stock" class="form-control form-control-sm" type="number" step="0.5"
+                                name="stock" required>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <!-- Campo url de la foto del producto -->
+                        <div class="form-group">
+                            <label for="foto">Foto URL</label>
+                            <input id="thumbnail" class="form-control form-control-sm" type="text" name="thumbnail">
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Botón de envío -->
                 <button type="submit" class="btn btn-success mt-3">Enviar</button>
             </form>
+
             <hr>
-            <button class="btn btn-info mt-3" onclick="location.href = '/api/productos/vista'">Vista handlebars
-                productos</button>
-            <br>
             <br>
             <div id="datos"></div>
-
-
-
 
             <div class="col-md-7 col-lg-7 order-md-last">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
@@ -124,7 +133,7 @@
                                 <div class="input-group has-validation">
                                     <span class="input-group-text"><i class="fa fa-envelope"
                                             aria-hidden="true"></i></span>
-                                    <input type="text" class="form-control" id="message" name="message"
+                                    <input type="text" class="form-control" id="mensaje" name="mensaje"
                                         placeholder="Escribe tu mensaje..." required="">
                                     <div class="invalid-feedback">
                                         Mensaje es requerido.
@@ -143,15 +152,14 @@
         </div>
     </div>
 
-    <script type="text/x-handlebars-template" id="index"></script>
-    <script src="/scripts/socket.io/socket.io.js"></script>
-    <script src="/js/socket-client.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-    <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-    crossorigin="anonymous"
-  ></script>
+    <!-- <script type="text/x-handlebars-template" id="index"></script> -->
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
+    </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/socket.js"></script>
 </body>
 
 </html>

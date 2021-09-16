@@ -12,10 +12,22 @@ const config = require("./src/config/config");
 const log4js = require("log4js");
 
 // ------------------------- MIDDLEWARES -----------------------
+
+app.set("views", path.join(__dirname, "/src/views"));
+app.engine(
+  ".hbs",
+  exphbs({
+    defaultLayout: "main",
+    layoutsDir: path.join(app.get("views"), "layouts"),
+    partialsDir: path.join(app.get("views"), "partials"),
+    extname: ".hbs",
+  })
+);
+app.set("view engine", ".hbs");
 app.use(morgan("dev"));
-app.use(express.urlencoded({ extended: true })); // New
-app.use(express.json());
 app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }))
 
 log4js.configure({
   appenders: {
@@ -35,27 +47,8 @@ log4js.configure({
 // ------------------------- SETTINGS --------------------------
 require("dotenv").config();
 require(`./src/data/conectiondb`);
-// require(`./src/passport/local-auth`);
-require(`./src/passport/facebook-auth`);
-
-// -------------------------------------------------------------
-
-// ------------------ VIEW ENGINE CONFIG -----------------------
-app.engine("hbs", exphbs({ extname: ".hbs" }));
-app.set("view engine", "hbs");
-app.set('views', path.join(__dirname, '/src/views'));
-// app.engine(
-//   "hbs",
-//   exphbs({
-//     defaultLayout: "main",
-//     layoutsDir: path.join(app.get("views"), "layouts"),
-//     partialsDir: path.join(app.get("views"), "partials"),
-//     extname: ".hbs",
-//   }),
-// );
-// app.set("views", path.join(__dirname, "views"));
-// app.set("view engine", "hbs");
-// -------------------------------------------------------------
+require(`./src/passport/local-auth`);
+// require(`./src/passport/facebook-auth`);
 
 // ------------------------- STATIC FILES ----------------------
 app.use(express.static(path.join(__dirname, "./src/public")));
@@ -70,6 +63,8 @@ app.use(
     saveUninitialized: false,
   }),
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(
   session({
@@ -86,16 +81,20 @@ app.use(
   }),
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
+// Global Variables
+//middleware para flash
+app.use((req, res, next) => {
+  app.locals.signinMessage = req.flash('signinMessage');
+  app.locals.signupMessage = req.flash('signupMessage');
+  app.locals.logeadoMessage = req.flash('logeadoMessage');
+  
+  res.locals.user = req.user || null;
+  // console.log(app.locals)
+  next();
+});
 
-// app.use((req, res, next) => {
-//   app.locals.signinMessage = req.flash("signinMessage");
-//   app.locals.signupMessage = req.flash("signupMessage");
-//   app.locals.user = req.user;
-//   // console.log(app.locals)
-//   next();
-// });
+
+
 // -------------------------------------------------------------
 
 // ---------------------------- ROUTES -------------------------
@@ -105,8 +104,6 @@ require("require-all")({
     app.use("/", require(path));
   },
 });
-
-
 
 // -------------------------------------------------------------
 // middleware para excepciones no atrapadas
