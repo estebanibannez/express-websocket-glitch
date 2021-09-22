@@ -1,53 +1,39 @@
 const request = require("supertest")("http://localhost:8080");
 const expect = require("chai").expect;
+
 const faker = require("faker");
 
-describe("TEST LOGIN", () => {
-  it("debería retornar un status 302 redirección a home", async () => {
-    let usuarioTest = {
-      email: "e.ibannez.p@gmail.cl",
-      password: "1234",
-    };
-
+describe("TEST PRODUCTOS", () => {
+  it("debe retornar status 200 producto id: 61426d9e2d1cdd36800eaa76 encontrado", async () => {
     let response = await request
-      .post("/login")
-      .send(usuarioTest)
+      .get("/productos/listar/61426d9e2d1cdd36800eaa76")
       .set("Accept", "application/json");
 
-    expect(response.status).to.eql(302);
-  });
-});
-
-describe("TEST REGISTER", () => {
-  it("debería retornar un status 200", async () => {
-    let response = await request.get("/register");
-    //console.log(response.status)
-    //console.log(response.body)
     expect(response.status).to.eql(200);
   });
 
-  it("debería incorporar un nuevo usuario y redirigir al home status 302", async () => {
-    let usuario = () => ({
-      firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
-      email: faker.internet.email(),
-      password: "1234",
-    });
-    console.log(usuario);
+  it("debe retornar status OK message : 'Producto no encontrado' producto id: 613eb8182da69ed5bdb82c32", async () => {
+    let response = await request
+      .get("/productos/listar/613eb8182da69ed5bdb82c32")
+      .set("Accept", "application/json");
 
-    let usuarioTest = {
-      firstName: "test1@test.cl",
-      lastName: "test1@test.cl",
-      email: "test1@test.cl",
-      password: "1234",
+    expect(response.body.message).to.eql("Producto no encontrado");
+  });
+
+  it("debe retornar status 200 , crea un producto nuevo", async () => {
+    let producto = {
+      nombre: faker.commerce.productName(),
+      precio: faker.commerce.price(),
+      stock: 2,
+      thumbnail: faker.image.imageUrl(),
     };
 
-    let response = await request.post("/register").send(usuarioTest);
-    expect(response.status).to.eql(302);
+    let response = await request
+      .post("/productos/guardar")
+      .send(producto)
+      .set("Accept", "application/json");
 
-    // const user = response.body;
-    // expect(user).to.include.keys("firstName", "email");
-    // expect(user.firstName).to.eql(usuario.firstName);
-    // expect(user.email).to.eql(usuario.email);
+    expect(response.status).equal(200);
+    expect(response.body.message).to.eql("OK Producto creado");
   });
 });

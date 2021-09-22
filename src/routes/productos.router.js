@@ -19,6 +19,13 @@ router.get("/productos/listar", async (req, res) => {
 router.get("/productos/listar/:id", async (req, res) => {
   try {
     let resultado = await productosController.buscarPorId(req.params.id);
+    console.log(resultado);
+    if (!resultado) {
+      return res.json({
+        status: 200,
+        message: "Producto no encontrado",
+      });
+    }
     return res.json({ status: 200, message: "OK", data: resultado });
   } catch (error) {
     return res.json({
@@ -33,7 +40,7 @@ router.post("/productos/guardar", async (req, res) => {
   try {
     const producto = req.body;
     let resultado = await productosController.guardar(producto);
-    return res.json({ status: 200, message: "OK", data: resultado });
+    return res.json({ status: 200, message: "OK Producto creado", data: resultado });
     // return res.redirect("/home");
   } catch (error) {
     return res.json({

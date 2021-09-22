@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha ./src/test/*.test.js",
+    "test": "mocha ./src/test/*.test.js --exit",
     "fork": "pm2 start index.js --name=servidor_1 --watch -- 8081",
     "cluster": "pm2 start index.js --name=servidor_1 --watch -i max -- 8082",
     "forever": "forever start ./index.js",
