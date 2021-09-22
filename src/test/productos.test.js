@@ -40,11 +40,12 @@ describe("TEST PRODUCTOS", () => {
   it("debe retornar status 400, falta llenar campos", async () => {
     let producto = {
       nombre: "",
-      descripcion: "",
+      descripcion: faker.commerce.productDescription(),
       codigo: "12345CODa",
-      foto: "",
+      thumbnail: faker.image.imageUrl(),
       precio: "",
-      stock: "",
+      //   precio: faker.commerce.price(),
+      stock: 10,
       permisos: {
         administrador: true,
         usuario: false,
