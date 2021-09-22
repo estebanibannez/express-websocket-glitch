@@ -36,4 +36,27 @@ describe("TEST PRODUCTOS", () => {
     expect(response.status).equal(200);
     expect(response.body.message).to.eql("OK Producto creado");
   });
+
+  it("debe retornar status 400, falta llenar campos", async () => {
+    let producto = {
+      nombre: "",
+      descripcion: "",
+      codigo: "12345CODa",
+      foto: "",
+      precio: "",
+      stock: "",
+      permisos: {
+        administrador: true,
+        usuario: false,
+      },
+    };
+
+    let response = await request
+      .post("/productos/guardar")
+      .set("Accept", "application/json")
+      .send(producto);
+
+    expect(response.status).to.eql(400);
+    expect(response.body.message).equal("Algunos campos son obligatorios");
+  });
 });

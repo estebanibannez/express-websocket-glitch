@@ -39,8 +39,22 @@ router.get("/productos/listar/:id", async (req, res) => {
 router.post("/productos/guardar", async (req, res) => {
   try {
     const producto = req.body;
-    let resultado = await productosController.guardar(producto);
-    return res.json({ status: 200, message: "OK Producto creado", data: resultado });
+    const { nombre, precio, stock } = req.body;
+    if (nombre == "" || precio == "" || stock == "") {
+      return res.status(400).json({
+        status: 400,
+        message: "Algunos campos son obligatorios",
+        // data: resultado,
+      });
+    } else {
+      let resultado = await productosController.guardar(producto);
+      return res.json({
+        status: 200,
+        message: "OK Producto creado",
+        data: resultado,
+      });
+    }
+
     // return res.redirect("/home");
   } catch (error) {
     return res.json({
