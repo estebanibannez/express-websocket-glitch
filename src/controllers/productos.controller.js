@@ -1,11 +1,17 @@
-const ProductosModel = require("../models/productos");
+const config = require("../config/config");
+const daoFactory = require("../dao/DAOFactory");
 
 class ProductosController {
-  constructor() {}
+  constructor() {
+    this.productosDao = daoFactory.getPersistence(
+      "productos",
+      config.PERSISTENCE,
+    );
+  }
 
   async buscar() {
     try {
-      return await ProductosModel.find({}).sort({ date: "desc" }).lean();
+      return await this.productosDao.find();
     } catch (error) {
       throw error;
     }
@@ -13,7 +19,7 @@ class ProductosController {
 
   async buscarPorId(id) {
     try {
-      return await ProductosModel.findById(id);
+      return await this.productosDao.findById(id);
     } catch (error) {
       throw error;
     }
@@ -21,7 +27,7 @@ class ProductosController {
 
   async guardar(producto) {
     try {
-      return await ProductosModel.create(producto);
+      return await this.productosDao.create(producto);
     } catch (error) {
       throw error;
     }
@@ -29,7 +35,7 @@ class ProductosController {
 
   async actualizar(indx, producto) {
     try {
-      return await ProductosModel.findByIdAndUpdate(indx, producto, {
+      return await this.productosDao.findByIdAndUpdate(indx, producto, {
         new: true,
       });
     } catch (error) {
@@ -39,7 +45,7 @@ class ProductosController {
 
   async eliminar(id) {
     try {
-      return await ProductosModel.findByIdAndDelete(id);
+      return await this.productosDao.findByIdAndDelete(id);
     } catch (error) {
       throw error;
     }

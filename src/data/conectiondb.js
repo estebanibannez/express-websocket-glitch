@@ -11,9 +11,9 @@ const connection = mongoose.connect(URL, {
 mongoose.connection.on("connected", () => {
   console.log(
     "\x1b[36m%s\x1b[0m",
-    "============ conexion a la base de datos realizada =========",
+    "============ conexion a la base de datos MONGO realizada =========",
   );
-  console.log("\x1b[36m%s\x1b[0m", URL);
+  // console.log("\x1b[36m%s\x1b[0m", URL);
 });
 
 mongoose.connection.on("error", (err) => {

@@ -1,30 +1,34 @@
-const Message = require('../models/message');
+const config = require("../config/config");
+const daoFactory = require("../dao/DAOFactory");
 
 class MessageController {
+  constructor() {
+    //super(Message);
+    this.mensajesDao = daoFactory.getPersistence(
+      "mensajes",
+      config.PERSISTENCE,
+    );
+  }
 
-    constructor() {
-        //super(Message);
-    }
+  async findAll() {
+    return await this.mensajesDao.find();
+  }
 
-    async findAll() {
-        return await Message.find({});
-    }
+  async findById(id) {
+    return await this.mensajesDao.findById(id);
+  }
 
-    async findById(id) {
-        return await Message.findById(id);
-    }
+  async create(data) {
+    return await this.mensajesDao.create(data);
+  }
 
-    async create(data) {
-        return await Message.create(data);
-    }
+  async update(id, data) {
+    return await this.mensajesDao.findByIdAndUpdate(id, data);
+  }
 
-    async update(id, data) {
-        return await Message.findByIdAndUpdate(id, data);
-    }
-
-    async delete(id) {
-        return await Message.findByIdAndDelete(id);
-    }
+  async delete(id) {
+    return await this.mensajesDao.findByIdAndDelete(id);
+  }
 }
 
 module.exports = new MessageController();
