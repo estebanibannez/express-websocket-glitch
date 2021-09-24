@@ -80,11 +80,11 @@ passport.use(
 
 //almaceno el id de usuario en session
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user);
 });
 
-passport.deserializeUser(async (id, done) => {
-  const user = await User.findById(id);
-  console.log("deserialización", user);
-  done(null, user);
+passport.deserializeUser(async (user, done) => {
+  const usuario = await User.findById(user._id);
+  console.log("deserialización", usuario);
+  done(null, usuario);
 });

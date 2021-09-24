@@ -41,8 +41,8 @@ module.exports = {
     );
   },
 
-  async findByIdAndUpdate(id, { email, message }) {
-    const update = { $set: { email, message } };
+  async findByIdAndUpdate(id, { email, mensaje }) {
+    const update = { $set: { email, mensaje } };
 
     return new Promise((resolve, reject) =>
       model.updateOne({ _id: id }, update, {}, (err, docs) => {

@@ -8,7 +8,6 @@ socket.on("connect", () => {
   lblOnline.style.display = "";
   lblOffline.style.display = "none";
   socket.on("productos", function (productos) {
-    debugger;
     console.log(productos);
     document.getElementById("datos").innerHTML = data2TableJS(productos);
   });
@@ -16,6 +15,7 @@ socket.on("connect", () => {
   //recibo los mensajes del servidor
   socket.on("messages", (mensajes) => {
     debugger
+    console.log(mensajes);
     renderMessages(mensajes);
   });
 });
