@@ -8,16 +8,18 @@ const connection = mongoose.connect(URL, {
   useCreateIndex: true,
 });
 
-mongoose.connection.on("connected", () => {
-  console.log(
-    "\x1b[36m%s\x1b[0m",
-    "============ conexion a la base de datos MONGO realizada =========",
-  );
-  // console.log("\x1b[36m%s\x1b[0m", URL);
-});
+if ((process.env.NODE_ENV || "").trim() !== "development") {
+  mongoose.connection.on("connected", () => {
+    console.log(
+      "\x1b[36m%s\x1b[0m",
+      "============ conexion a la base de datos MONGO realizada =========",
+    );
+    // console.log("\x1b[36m%s\x1b[0m", URL);
+  });
 
-mongoose.connection.on("error", (err) => {
-  console.log("[Mongoose] - error:", err);
-});
+  mongoose.connection.on("error", (err) => {
+    console.log("[Mongoose] - error:", err);
+  });
 
-module.exports = connection;
+  module.exports = connection;
+}

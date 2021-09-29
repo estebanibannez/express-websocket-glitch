@@ -3,6 +3,15 @@
 _Proyecto coderhouse _
 
 ## V1 🚀
+## Commands
+_ npm run dev : inicia en modo desarrollo base de datos en memoria 
+* nedb
+
+_ npm run prod : inicia en modo producción base de datos persistente 
+* mongodb
+
+_ npm run yargs : inicia en puerto 8000
+* memory - mongodb
 
 
 ## Construido con 🛠️

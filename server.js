@@ -21,27 +21,26 @@ app.engine(
     layoutsDir: path.join(app.get("views"), "layouts"),
     partialsDir: path.join(app.get("views"), "partials"),
     extname: ".hbs",
-  })
+  }),
 );
 app.set("view engine", ".hbs");
 app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false }));
 
 log4js.configure({
   appenders: {
-      loggerConsole: { type: "console" },
-      loggerErrorWarns: { type: 'file', filename: './logs/warn.log' },
-      loggerFileErrors: { type: 'file', filename: './logs/error.log' }
+    loggerConsole: { type: "console" },
+    loggerErrorWarns: { type: "file", filename: "./logs/warn.log" },
+    loggerFileErrors: { type: "file", filename: "./logs/error.log" },
   },
   categories: {
-    
-      default: { appenders: ["loggerConsole"], level: "trace" },
-      consola: { appenders: ["loggerConsole"], level: "trace" },
-      warns: { appenders: ["loggerErrorWarns"], level: "warn" },
-      error: { appenders: ["loggerFileErrors"], level: "error" }
-  }
+    default: { appenders: ["loggerConsole"], level: "trace" },
+    consola: { appenders: ["loggerConsole"], level: "trace" },
+    warns: { appenders: ["loggerErrorWarns"], level: "warn" },
+    error: { appenders: ["loggerFileErrors"], level: "error" },
+  },
 });
 
 // ------------------------- SETTINGS --------------------------
@@ -85,16 +84,14 @@ app.use(
 // Global Variables
 //middleware para flash
 app.use((req, res, next) => {
-  app.locals.signinMessage = req.flash('signinMessage');
-  app.locals.signupMessage = req.flash('signupMessage');
-  app.locals.logeadoMessage = req.flash('logeadoMessage');
-  
+  app.locals.signinMessage = req.flash("signinMessage");
+  app.locals.signupMessage = req.flash("signupMessage");
+  app.locals.logeadoMessage = req.flash("logeadoMessage");
+
   res.locals.user = req.user || null;
   // console.log(app.locals)
   next();
 });
-
-
 
 // -------------------------------------------------------------
 

@@ -2,6 +2,7 @@ const app = require("./server");
 const config = require("./src/config/config");
 const log4js = require("log4js");
 const logger = log4js.getLogger("consola");
+
 // ------------------------- WEB SOCKETS ----------------------
 
 const http = require("http").Server(app);
@@ -45,7 +46,7 @@ io.on("connection", async (socket) => {
   socket.on("new-message", async (payload) => {
     console.log("llego al servidor un nuevo msg", payload);
     mensajesctrl.create(payload);
-    const mensajes = await mensajesctrl.findAll()
+    const mensajes = await mensajesctrl.findAll();
     io.sockets.emit("messages", mensajes);
   });
 });
