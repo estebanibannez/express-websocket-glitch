@@ -18,12 +18,13 @@ const schema = buildSchema(`
     getProducts: [Product],
     "Busca un producto por Id"
     getProductsById(_id: ID!): Product
-    "Elimina un producto por Id"
-    deleteProductById(_id: ID!): Product
   }
 
   type Mutation {
-    updateProduct(id: ID!, input: ProductInput): Product
+    "Actualiza un producto por Id"
+    updateProduct(id: ID!, input: ProductInput): Product!
+    "Elimina un producto por Id"
+    deleteProductById(_id: ID!): Product
   }
 
   "Entidad que representa un producto"

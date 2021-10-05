@@ -9,22 +9,26 @@ const getProductsById = async function(parent, args, context, info) {
 };
 
 const deleteProductById = async function(parent, args, context, info) {
-	console.log({ _id: args._id })
-	return await controller.eliminar( args._id );
+	console.log({ _id: args._id });
+	return await controller.eliminar(args._id);
 };
 
-const updateProduct = async ({id, input}) => {
-	console.log({ _id: args._id })
-	return await controller.actualizar( id , input);
+const updateProduct = async ({ id, input }) => {
+	console.log({ _id: args._id });
+	return await controller.actualizar(id, input);
 };
 
 const root = {
 	getProducts: getProducts,
 	getProductsById: getProductsById,
+};
+
+const mutation = {
 	deleteProductById: deleteProductById,
-	// updateProduct: updateProduct
+	updateProduct: updateProduct,
 };
 
 module.exports = {
 	Query: root,
+	Mutation: mutation,
 };

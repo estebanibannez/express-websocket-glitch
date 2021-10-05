@@ -1,8 +1,8 @@
 const controller = require('../../controllers/mensajes.controller');
 
-const createMessage = async function({input}) {
-	console.log({input})
-	return await controller.create({input});
+const createMessage = async function({ input }) {
+	console.log({ input });
+	return await controller.create({ input });
 };
 
 const getMessages = async function() {
@@ -21,10 +21,10 @@ const deleteMessagesById = async function(parent, args, context, info) {
 const root = {
 	getMessages: getMessages,
 	getMessagesById: getMessagesById,
-	deleteMessagesById: deleteMessagesById,
 };
 
 const mutation = {
+	deleteMessagesById: deleteMessagesById,
 	createMessage: createMessage,
 };
 module.exports = {

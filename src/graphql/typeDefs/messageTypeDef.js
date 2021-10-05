@@ -23,11 +23,12 @@ const schema = buildSchema(`
     getMessages: [Message],
     "Retorna un mensaje por Id"
     getMessagesById(_id: ID!): Message
-    "Elimina un mensaje por Id"
-    deleteMessagesById(_id: ID!): Message
+   
   }
  
   type Mutation {
+    "Elimina un mensaje por Id"
+    deleteMessagesById(_id: ID!): Message
     "Crea un mensaje nuevo"
     createMessage(input: MessageInput): Message
   }
@@ -35,4 +36,3 @@ const schema = buildSchema(`
 `);
 
 module.exports = schema;
-
