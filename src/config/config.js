@@ -42,7 +42,7 @@ module.exports = {
   GMAIL_PASS: process.env.GMAIL_PASS || "mtC5C4YrtpjTYRZKPB",
   ACCOUNT_SID: process.env.ACCOUNT_SID || "AC88750c917a154293f1d60ac9abf26267",
   AUTH_TOKEN: process.env.AUTH_TOKEN || "d9f75b2c53a2ecaa1d3c8d3e661049c4",
-  PERSISTENCE: process.env.PERSISTENCE || "mariadb", // "memory" mariadb  dao,
+  PERSISTENCE: process.env.PERSISTENCE || "dao", // "memory" mariadb  dao,
   // PERSISTENCE: process.env.PERSISTENCE || "mongodb" ,
   sqlite3Producto,
   sqlite3Mensajes

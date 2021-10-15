@@ -14,7 +14,7 @@ const mensajesctrl = require("./src/controllers/mensajes.controller");
 // -------------------------------------------------------------
 // ---------------------------- APP LISTEN ---------------------
 http.listen(config.PORT || 8080, () => {
-  logger.info("servidor escuchando en puerto: " + config.PORT);
+  logger.info("servidor escuchando en puerto: ⚡️" + config.PORT);
   console.log(
     "\x1b[33m%s\x1b[0m",
     `============= servidor escuchando =============`,
