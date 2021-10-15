@@ -13,7 +13,6 @@ passport.use(
       passReqToCallback: true,
     },
     function (req, email, password, done) {
-      debugger
       // check in mongo if a user with username exists or not
       User.findOne({ email }, function (err, user) {
         // In case of any error, return using the done method
