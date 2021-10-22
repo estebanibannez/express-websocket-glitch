@@ -13,6 +13,13 @@ const log4js = require('log4js');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./src/graphql/schema');
 const root = require('./src/graphql/resolvers/resolver');
+
+// ------------------------- SETTINGS --------------------------
+require('dotenv').config();
+require(`./src/passport/local-auth`);
+require(`./src/data/conectiondb`);
+require(`./src/data/nedbConection`);
+
 // ------------------------- MIDDLEWARES -----------------------
 
 app.set('views', path.join(__dirname, '/src/views'));
@@ -45,11 +52,9 @@ log4js.configure({
 	},
 });
 
-// ------------------------- SETTINGS --------------------------
-require('dotenv').config();
-require(`./src/data/conectiondb`);
-require(`./src/data/nedbConection`);
-require(`./src/passport/local-auth`);
+if (process.env.TIPOPERSISTENCIA == 'mariadb') {
+	require('./src/data/migracion');
+}
 // require(`./src/passport/facebook-auth`);
 
 // ------------------------- STATIC FILES ----------------------

@@ -1,0 +1,19 @@
+<div class="row">
+ {{# each products }}
+    <div class="col-md-4">
+        <figure class="card-product-grid p-5">
+            <a href="#" class="img-wrap"> 
+                <img src="{{this.thumbnail}}" width="100px">
+            </a>
+            <figcaption class="info-wrap">
+                <a href="#" class="title">{{ this.nombre }}</a>
+                <small class="text-muted">{{ this.descripcion }}</small>
+                <div class="mt-2">
+                    <var class="price">${{ this.precio }}</var> <!-- price-wrap.// -->
+                    <a href="/add-to-cart/{{this._id}}" class="btn btn-sm btn-outline-primary float-right">Add to cart <i class="fa fa-shopping-cart"></i></a>
+                </div> <!-- action-wrap.end -->
+            </figcaption>
+        </figure> <!-- card // -->
+    </div>
+{{/each}}  
+</div>

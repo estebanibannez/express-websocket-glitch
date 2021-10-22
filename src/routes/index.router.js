@@ -6,7 +6,7 @@ const log4js = require("log4js");
 const logger = log4js.getLogger("consola");
 const path = require("path");
 const sendMail = require("../utils/mails");
-const controllerProductos = require("../controllers/productos.controller");
+const controller = require("../controllers/productos.controller");
 
 //navego a la ruta principal Protegida
 // router.get("/", isAuthenticated, (req, res) => {
@@ -100,5 +100,17 @@ function isAuthenticated(req, res, next) {
     res.redirect("/");
   }
 }
+
+
+router.get('/ecommerce',async (req, res) => {
+
+  let result = await controller.buscar();
+
+  console.log(result)
+  return res.render("ecommerce", {
+    user: req.user,
+    products: result, 
+  });
+})
 
 module.exports = router;

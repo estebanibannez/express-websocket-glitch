@@ -1,9 +1,11 @@
-const knex = require("../../data/conectionKnex")
+require("../../data/migracion");
+const { sqlite3Mensajes } = require("../../config/config");
+const knex = require("knex")(sqlite3Mensajes);
 
 module.exports = {
   async find() {
     return new Promise((resolve, reject) => {
-      const resultado = knex("productos").select();
+      const resultado = knex("mensajes").select();
       return resolve(resultado);
     });
   },
@@ -11,11 +13,11 @@ module.exports = {
   async findById(id) {
     return new Promise((resolve, reject) => {
       const resultado = knex
-        .from("productos")
+        .from("mensajes")
         .where("id", id)
         .select()
         .then(() => {
-          console.log("consulta productos");
+          console.log("consulta mensajes");
           return resolve(resultado);
         })
         .catch((error) => {
@@ -26,22 +28,19 @@ module.exports = {
   },
 
   async create(data) {
-    const producto = {
-      nombre: data.nombre,
+    const mensaje = {
+      mensaje: data.mensaje,
       timestamp: Date.now(),
-      descripcion: data.descripcion,
-      codigo: data.codigo,
-      thumbnail: data.thumbnail,
-      precio: data.precio,
-      stock: data.stock,
+      autor: data.autor,
+      email: data.email,
     };
 
     return new Promise((resolve, reject) => {
-      const resultado = knex("productos")
-        .insert(producto)
+      const resultado = knex("mensajes")
+        .insert(mensaje)
 
         .then(() => {
-          console.log("productos agregados a la tabla");
+          console.log("mensajes agregados a la tabla");
           return resolve(resultado);
         })
         .catch((error) => {
@@ -55,16 +54,16 @@ module.exports = {
     });
   },
 
-  async findByIdAndUpdate(id, { nombre, precio, stock, thumbnail }) {
-    const update = { nombre, precio, stock, thumbnail };
+  async findByIdAndUpdate(id, { mensaje, autor, email }) {
+    const update = { mensaje, autor, email };
 
     return new Promise((resolve, reject) => {
       const resultado = knex
-        .from("productos")
+        .from("mensajes")
         .where("id", id)
         .update(update)
         .then(() => {
-          console.log("productos actualizados");
+          console.log("mensaje actualizado");
           return resolve(resultado);
         })
         .catch((error) => {
@@ -77,11 +76,11 @@ module.exports = {
   async findByIdAndDelete(id) {
     return new Promise((resolve, reject) => {
       const resultado = knex
-        .from("productos")
+        .from("mensajes")
         .where("id", "=", id)
         .del()
         .then(() => {
-          console.log("producto eliminado");
+          console.log("mensaje eliminado");
           return resolve(resultado);
          
         })
