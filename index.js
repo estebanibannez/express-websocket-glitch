@@ -31,13 +31,14 @@ io.on('connection', async (socket) => {
 		const listadoproductos = await productos.buscar();
 		io.sockets.emit('productos', listadoproductos);
 	});
+	
 
 	// //mensajes
 	socket.emit('messages', listadomensajes);
 
 	socket.on('new-message', async (payload) => {
 		console.log('llego al servidor un nuevo msg', payload);
-		mensajesctrl.create(payload);
+		await mensajesctrl.create(payload);
 		const mensajes = await mensajesctrl.findAll();
 		io.sockets.emit('messages', mensajes);
 	});

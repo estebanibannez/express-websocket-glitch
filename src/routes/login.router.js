@@ -1,53 +1,77 @@
-const router = require("express").Router();
-const passport = require("passport");
-const controller = require("../controllers/login.controller");
-const log4js = require("log4js");
-const logger = log4js.getLogger("error");
+const router = require('express').Router();
+const passport = require('passport');
+const controller = require('../controllers/login.controller');
+const log4js = require('log4js');
+const logger = log4js.getLogger('error');
+// const csrf = require('csurf');
+// const csrfProtection = csrf();
+
+// router.use(csrfProtection);
 
 // --------------- LOGIN -----------------
-router.get("/login", async (req, res) => {
-  try {
-    res.render("signin", {});
-  } catch (error) {}
+router.get('/user/signin',(req, res) => {
+	try {
+		res.render('user/signin', {});
+		// {csrfToken: req.csrfToken()}
+	} catch (error) {}
 });
 
 router.post(
-  "/login",
-  passport.authenticate("login", {
-    failureRedirect: "/faillogin",
-    successRedirect: "/home",
-  }),
+	'/user/signin',
+	passport.authenticate('login', {
+		failureRedirect: '/faillogin',
+		successRedirect: '/ecommerce',
+	}),
+	(req, res, next) => {
+		if (req.session.oldUrl) {
+			let oldUrl = req.session.oldUrl;
+			req.session.oldUrl = null;
+			res.redirect(oldUrl);
+		} else {
+			res.redirect('/user/profile');
+		}
+	},
 );
 
 // ---------------REGISTRO------------------
-router.get("/register", async (req, res) => {
-  try {
-    res.render("signup", {});
-  } catch (error) {}
+router.get('/user/signup', async (req, res) => {
+	try {
+		res.render('user/signup', {});
+		// {csrfToken: req.csrfToken()}
+	} catch (error) {}
 });
 
 router.post(
-  "/register",
-  passport.authenticate("registro", {
-    successRedirect: "/home",
-    failureRedirect: "/register",
-    failureFlash: true,
-  }),
+	'/user/signup',
+	passport.authenticate('registro', {
+		// successRedirect: '/home',
+		failureRedirect: '/user/signup',
+		failureFlash: true,
+	}),
+	(req, res, next) => {
+		if (req.session.oldUrl) {
+			let oldUrl = req.session.oldUrl;
+			req.session.oldUrl = null;
+			res.redirect(oldUrl);
+		} else {
+			res.redirect('/user/profile');
+		}
+	},
 );
 
-router.get("/failsignup", async (req, res) => {
-  try {
-    return res.render("signup-error");
-  } catch (error) {}
+router.get('/failsignup', async (req, res) => {
+	try {
+		return res.render('signup-error');
+	} catch (error) {}
 });
 
-router.get("/faillogin", async (req, res) => {
-  try {
-    return res.render("login-error");
-  } catch (error) {}
+router.get('/faillogin', async (req, res) => {
+	try {
+		return res.render('login-error');
+	} catch (error) {}
 });
 
-router.get("/logout", controller.getLogout);
+router.get('/user/logout', controller.getLogout);
 
 // //middleware para verificar si usuario está logeado
 // const auth = (req, res, next) => {
@@ -63,19 +87,19 @@ router.get("/logout", controller.getLogout);
 // });
 
 // // --------------- autenticación con Facebook ----------------- //
-router.get("/auth/facebook", passport.authenticate("facebook"));
+router.get('/auth/facebook', passport.authenticate('facebook'));
 
 router.get(
-  "/auth/facebook/callback",
-  passport.authenticate("facebook", {
-    successRedirect: "/home",
-    failureRedirect: "/faillogin",
-  }),
+	'/auth/facebook/callback',
+	passport.authenticate('facebook', {
+		successRedirect: '/home',
+		failureRedirect: '/faillogin',
+	}),
 );
 
-router.get("/faillogin", (req, res) => {
-  logger.error("Ocurrió un error con el login");
-  res.status(401).send({ error: "no se pudo autenticar con facebook" });
+router.get('/faillogin', (req, res) => {
+	logger.error('Ocurrió un error con el login');
+	res.status(401).send({ error: 'no se pudo autenticar con facebook' });
 });
 
 module.exports = router;

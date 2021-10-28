@@ -10,7 +10,7 @@
             class="form"
             role="form"
             {{! enctype="multipart/form-data" }}
-            action="/register"
+            action="/user/signup"
             method="POST"
             autocomplete="off"
           >
@@ -18,7 +18,7 @@
             <div class="form-group">
               <input
                 name="firstName"
-                placeholder="Nombre"
+                placeholder="Nombres"
                 class="form-control"
                 type="text"
                 required
@@ -28,7 +28,27 @@
             <div class="form-group">
               <input
                 name="lastName"
-                placeholder="Apellido"
+                placeholder="Apellidos"
+                class="form-control"
+                type="text"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <input
+                name="edad"
+                placeholder="Edad"
+                class="form-control"
+                type="text"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <input
+                name="telefono"
+                placeholder="teléfono +569893427XX"
                 class="form-control"
                 type="text"
                 required
@@ -54,7 +74,7 @@
                 required
               />
             </div>
-
+            {{!-- <input type="hidden" name="_csrf" value="{{ csrfToken }}"> --}}
             <div class="form-group">
               <input
                 class="btn btn-primary my-3"

@@ -1,19 +1,66 @@
-<div class="row">
+{{!-- {{>navigation}} --}}
+<div class="row pt-5">
  {{# each products }}
     <div class="col-md-4">
-        <figure class="card-product-grid p-5">
-            <a href="#" class="img-wrap"> 
-                <img src="{{this.thumbnail}}" width="100px">
-            </a>
-            <figcaption class="info-wrap">
-                <a href="#" class="title">{{ this.nombre }}</a>
-                <small class="text-muted">{{ this.descripcion }}</small>
-                <div class="mt-2">
-                    <var class="price">${{ this.precio }}</var> <!-- price-wrap.// -->
-                    <a href="/add-to-cart/{{this._id}}" class="btn btn-sm btn-outline-primary float-right">Add to cart <i class="fa fa-shopping-cart"></i></a>
-                </div> <!-- action-wrap.end -->
-            </figcaption>
-        </figure> <!-- card // -->
+        <div class="p-3" style="width: 100%; min-height: 100%">
+            <img src="{{this.thumbnail}}" class="card-img-top image-responsive img-wrap" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{ this.nombre }}</h5>
+                <p class="card-text">{{ this.descripcion }}</p>
+                <p class="price">${{ this.precio }}</p> <!-- price-wrap.// -->
+                <a href="/add-to-cart/{{this._id}}" class="btn btn-sm btn-outline-primary float-right">Agregar al carro <i class="fa fa-shopping-cart"></i></a>
+            </div>
+        </div>
     </div>
 {{/each}}  
+</div>
+
+<hr>
+
+<div class="col-md-12 col-lg-12 order-md-last">
+<h4 class="d-flex justify-content-between align-items-center mb-3">
+    <div class="alert alert-danger" role="alert">
+    SOPORTE EN LINEA
+    </div>
+    <span class="badge rounded-pill">
+        <span class="badge badge-success" id="lblOnline">Chat en línea</span>
+        <span class="badge badge-danger" id="lblOffline">Chat offline</span>
+    </span>
+</h4>
+<ul class="list-group mb-3" id="messages">
+</ul>
+
+<div class="card p-1">
+    <div class="input-group">
+        <form action="" class="form-inline" id="formMessages">
+            <div class="col-12">
+                <div class="input-group has-validation">
+                    <span class="input-group-text">@</span>
+                    <input type="text" class="form-control" id="email" name="email"
+                        placeholder="Correo electrónico" required="">
+                    <div class="invalid-feedback">
+                        Correo electrónico es requerido.
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 mt-2">
+                <div class="input-group has-validation">
+                    <span class="input-group-text"><i class="fa fa-envelope"
+                            aria-hidden="true"></i></span>
+                    <input type="text" class="form-control" id="mensaje" name="mensaje"
+                        placeholder="Escribe tu mensaje..." required="">
+                    <div class="invalid-feedback">
+                        Mensaje es requerido.
+                    </div>
+                </div>
+
+                <div class="col-12 mt-2">
+                    <button type="submit" id="btnEnviar"
+                        class="btn btn-secondary btn-block">Enviar</button>
+                </div>
+
+        </form>
+    </div>
+</div>
 </div>

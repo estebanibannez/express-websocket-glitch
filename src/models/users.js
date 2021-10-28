@@ -10,9 +10,10 @@ const User = new Schema(
 		firstName: String,
 		provider: String,
 		lastName: String,
-    age: String,
+    	age: String,
 		phone: { type: String },
 		photo: String,
+		role:  { type: String , default: 'ecommerce'}
 	},
 	{
 		timestamps: true,

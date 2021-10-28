@@ -1,5 +1,4 @@
-
-
+{{!-- <div class="container">
   <header class="mb-auto">
     <div>
       <h3 class="float-md-start mb-0"></h3>
@@ -8,7 +7,77 @@
         <a class="nav-link" href="/datos">Mis Datos</a>
         <a class="nav-link" href="/info">Info</a>
         <a class="nav-link" href="/profile">Mi Perfil</a>
+
+        <a class="nav-link" href="/shopping-cart"><i class="fas fa-shopping-cart"></i> Shopping Cart
+          <span class="badge badge-secondary badge-pill">{{ session.cart.totalQty }}</span>
+        </a>
+        {{# if login }}
         <a class="nav-link" href="/logout">Cerrar sesion</a>
+          {{ else }}
+        <a class="dropdown-item" href="/register">Registrarse</a>
+        <a class="dropdown-item" href="/login">Entrar</a>   
+        {{/if}}
       </nav>
     </div>
   </header>
+</div> --}}
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Ecommerce Coder</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      
+      <li class="nav-item">
+        <a class="nav-link" href="/">
+          <i class="fa fa-home" aria-hidden="true"></i> Home
+        </a>
+      </li>
+      
+      <li class="nav-item">
+        <a class="nav-link" href="/shopping-cart/">
+          <i class="fas fa-shopping-cart"></i> Shopping Cart
+          <span class="badge badge-secondary badge-pill">{{ session.cart.totalQty }}</span>
+        </a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-user"></i> Gestión de usuario
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+          {{#if login }}
+            {{!-- {{#if role}} --}}
+               <a class="dropdown-item" href="/user/administracion">Administración</a>
+            <a class="dropdown-item" href="/user/profile">Perfil Usuario</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/user/logout">Cerrar sesion</a>
+          {{ else }}
+            <a class="dropdown-item" href="/user/signup">Sign Up</a>
+            <a class="dropdown-item" href="/user/signin">Sign In</a>   
+          {{/if}}
+
+
+        </div>
+      </li>
+      <!--
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li>
+      -->
+    </ul>
+    <!--
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    -->
+  </div>
+</nav>
+

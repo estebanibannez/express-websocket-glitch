@@ -6,6 +6,8 @@ const schema = mongoose.Schema({
   precio: { type: Number, required: true },
   stock: { type: Number, required: true },
   thumbnail: { type: String, max: 100 },
+	codigo: { type: String, max: 100 },
+	categoria: { type: String, max: 100 },
 });
 
 const Productos = mongoose.model("producto", schema);

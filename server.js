@@ -89,14 +89,33 @@ app.use(
 );
 
 // Global Variables
-//middleware para flash
+// authenticate?
+// middleware para flash
 app.use((req, res, next) => {
 	app.locals.signinMessage = req.flash('signinMessage');
 	app.locals.signupMessage = req.flash('signupMessage');
 	app.locals.logeadoMessage = req.flash('logeadoMessage');
-
+	app.locals.usuariologeado = req.user || null;
+	res.locals.login = req.isAuthenticated();
+	res.locals.session = req.session;
 	res.locals.user = req.user || null;
-	// console.log(app.locals)
+	// app.locals.role = null;
+	// if(req.user){
+	// 	app.locals.role = req.user.role === 'admin' ? true : false || null;
+	// }else{
+	// 	app.locals.role = null;
+	// }
+
+
+
+	console.log(app.locals);
+	next();
+});
+
+app.use(function(req, res, next) {
+	res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+	res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 	next();
 });
 

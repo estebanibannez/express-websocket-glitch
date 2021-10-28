@@ -14,11 +14,31 @@ socket.on("connect", () => {
 
   //recibo los mensajes del servidor
   socket.on("messages", (mensajes) => {
-    debugger
     console.log(mensajes);
     renderMessages(mensajes);
   });
 });
+
+
+function eliminarProducto(data){
+  let id = data.value;
+  fetch('/productos/borrar/' + id, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "DELETE",
+    body: JSON.stringify(data),
+  })
+    .then((respuesta) => respuesta.json())
+    .then((productos) => {
+      debugger;
+      form.reset();
+      socket.emit("update", "ok");
+    })
+    .catch((error) => {
+      console.log("ERROR", error);
+    });
+}
 
 /* obtengo las referencias a los formularios */
 /* obtengo el formulario */
@@ -32,6 +52,7 @@ form.addEventListener("submit", (event) => {
     precio: form[1].value,
     stock: form[2].value,
     thumbnail: form[3].value,
+    descripcion: form[4].value,
   };
 
   fetch("/productos/guardar", {
@@ -92,6 +113,7 @@ function data2TableJS(productos) {
   <div class="table-responsive">
       <table class="table table-dark">
           <tr>
+              <th>#</th>
               <th>Nombre</th>
               <th>Precio</th>
               <th>Stock</th>
@@ -99,10 +121,13 @@ function data2TableJS(productos) {
           </tr>
           {{#each productos}}
           <tr>
+              <td>{{this.id}}</td>
               <td>{{this.nombre}}</td>
               <td>$ {{ this.precio }}</td>
               <td> {{ this.stock }}</td>
               <td><img width="50" src={{this.thumbnail}} alt="not found"></td>
+              <td><button onclick="eliminarProducto(this);" id="" value="{{ this._id }}" type="button" class="btn btn-primary btn-sm">Borrar</button></td>
+          </div>
           </tr>
           {{/each}}
       </table>
@@ -117,7 +142,6 @@ function data2TableJS(productos) {
 //=============================== MENSAJES ============================//
 //funcion que renderiza los mensajes
 function renderMessages(data) {
-  debugger
   let html = data
     .map((elem) => {
       return `
@@ -159,6 +183,7 @@ formMessages.addEventListener("submit", (e) => {
     document.querySelector("#mensaje").value = "";
   }
 });
+
 
 
 
