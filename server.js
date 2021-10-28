@@ -95,18 +95,18 @@ app.use((req, res, next) => {
 	app.locals.signinMessage = req.flash('signinMessage');
 	app.locals.signupMessage = req.flash('signupMessage');
 	app.locals.logeadoMessage = req.flash('logeadoMessage');
-	app.locals.usuariologeado = req.user || null;
+	const role = (req.user ? req.user.role : null) || null;
+	app.locals.usuariologeado = role == 'admin' ? true : false;
 	res.locals.login = req.isAuthenticated();
 	res.locals.session = req.session;
 	res.locals.user = req.user || null;
+
 	// app.locals.role = null;
 	// if(req.user){
 	// 	app.locals.role = req.user.role === 'admin' ? true : false || null;
 	// }else{
 	// 	app.locals.role = null;
 	// }
-
-
 
 	console.log(app.locals);
 	next();

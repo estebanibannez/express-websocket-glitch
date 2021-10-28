@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
 });
 
 //navego a la ruta principal Protegida
-router.get('/admin', isAuthenticated, async (req, res) => {
+router.get('/administracion', isAuthenticated, async (req, res) => {
 	//envia correo ethereal
 	// sendMail.sendMail(
 	//   "Servidor Node.js test",
@@ -42,8 +42,8 @@ router.get('/admin', isAuthenticated, async (req, res) => {
 	//   }`,
 	// );
 
-	let result = await controller.buscar();
-	let mensajes = await controllerMsg.findAll();
+	// let result = await controller.buscar();
+	// let mensajes = await controllerMsg.findAll();
 
 	// res.render('administracion', {
 	// 	csrfToken: req.csrfToken(),

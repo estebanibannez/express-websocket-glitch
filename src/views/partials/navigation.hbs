@@ -53,8 +53,9 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
           {{#if login }}
-            {{!-- {{#if role}} --}}
-               <a class="dropdown-item" href="/user/administracion">Administración</a>
+            {{#if usuariologeado}} 
+               <a class="dropdown-item" href="/administracion">Administración</a>
+            {{/if}}
             <a class="dropdown-item" href="/user/profile">Perfil Usuario</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="/user/logout">Cerrar sesion</a>
