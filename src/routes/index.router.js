@@ -149,7 +149,7 @@ router.get('/shopping-cart', (req, res, next) => {
 
 //====================== checkout ==================//
 
-router.get('/checkout', isAuthenticated, (req, res, next) => {
+router.get('/checkout', (req, res, next) => {
 	console.log('procediendo con el pago...');
 
 	//si no existe un carro en sesion
@@ -172,41 +172,45 @@ router.post('/checkout', isAuthenticated, (req, res, next) => {
 	}
 	let cart = new Cart(req.session.cart);
 
-	console.log('created the cart...');
+	// console.log('created the cart...');
 
-	console.log('token: ', req.body.stripeToken);
+	// console.log('token: ', req.body.stripeToken);
 	/*
 	var stripe = require("stripe")(
 		"sk_test_fwmVPdJfpkmwlQRedXec5IxR"
 	);
 	*/
-	let stripe = require('stripe')('sk_test_l6yzGVoH7wUkz5F7vRrRlczU');
-	stripe.charges.create(
-		{
-			amount: cart.totalPrice * 100,
-			currency: 'usd',
-			source: req.body.stripeToken, // obtained with Stripe.js
-			description: 'Test Charge',
-		},
-		(err, charge) => {
-			if (err) {
-				console.log('there were errors...');
-				req.flash('error', err.message);
-				return res.redirect('/checkout');
-			}
+	// let stripe = require('stripe')('sk_test_l6yzGVoH7wUkz5F7vRrRlczU');
+	// stripe.charges.create(
+	// 	{
+	// 		amount: cart.totalPrice * 100,
+	// 		currency: 'usd',
+	// 		source: req.body.stripeToken, // obtained with Stripe.js
+	// 		description: 'Test Charge',
+	// 	},
+	// 	(err, charge) => {
+	// 		if (err) {
+	// 			console.log('there were errors...');
+	// 			req.flash('error', err.message);
+	// 			return res.redirect('/checkout');
+	// 		}
 			console.log('=============================================');
 			console.log('req.user: ', req.user);
 			console.log('cart: ', cart);
 			console.log('address: ', req.body.address);
 			console.log('name: ', req.body.name);
-			console.log('paymentId: ', charge.id);
+			// console.log('paymentId: ', charge.id);
+
+
+
 
 			let order = new Order({
 				user: req.user,
 				cart: cart,
 				address: req.body.address,
 				name: req.body.name,
-				paymentId: charge.id,
+				paymentId: obtenerNumberRandom(1,100),
+				// paymentId: charge.id,
 			});
 			order.save(function(err, result) {
 				//if (err) {
@@ -217,8 +221,12 @@ router.post('/checkout', isAuthenticated, (req, res, next) => {
 				req.session.cart = null;
 				res.redirect('/');
 			});
-		},
-	);
+	// 	},
+	// );
 });
+
+function obtenerNumberRandom(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 module.exports = router;
