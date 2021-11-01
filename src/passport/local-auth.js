@@ -1,7 +1,7 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("../models/users");
-const bcrypt = require("../utils/utils");
+const sendMail = require("../utils/mails");
 
 //-------- LOGIN PASSPORT -------//
 passport.use(
@@ -28,7 +28,7 @@ passport.use(
         }
         // Contraseña incorrecta
         const validaContrasena = user.matchPassword(password);
-        
+
         if (!validaContrasena) {
           console.log("Invalid Password");
           return done(
@@ -39,7 +39,11 @@ passport.use(
         }
         // User and password both match, return user from
         // done method which will be treated like success
-        return done(null, user, req.flash("logeadoMessage", `Bienvenido ${user.firstName}`));
+        return done(
+          null,
+          user,
+          req.flash("logeadoMessage", `Bienvenido ${user.firstName}`),
+        );
       });
     },
   ),
@@ -61,11 +65,11 @@ passport.use(
         return done(
           null,
           false,
-          req.flash(
-            "signupMessage",
-            `El correo ya se encuentra en uso`,
+          req.flash("signupMessage", `El correo ya se encuentra en uso`),
+          console.log(
+            `El usuario ya se encuentra registrado con ese correo: `,
+            resultado,
           ),
-          console.log(`El usuario ya se encuentra registrado con ese correo: `, resultado)
         );
       }
       const user = new User();
@@ -76,6 +80,23 @@ passport.use(
       user.age = req.body.edad;
       user.phone = req.body.telefono;
       await user.save();
+      // envia correo de nuevo usuario registrado
+
+      // const { firstName, email, age, photo, phone } = user;
+
+      //envia correo ethereal
+      sendMail.sendMail(
+        "Ecommerce nuevo usuario",
+        "",
+        "LOGIN",
+        `<h1>Se ha registrado un nuevo usuario a las ${new Date().toLocaleString()} </h1>\n\n
+        Nombre: ${user.firstName} \n
+        Email: ${user.email} \n
+        Edad: ${user.age} \n
+        Foto: ${user.photo} \n
+        Teléfono: ${user.phone} \n`,
+      );
+
       done(null, user);
     },
   ),

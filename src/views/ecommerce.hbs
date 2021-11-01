@@ -1,37 +1,17 @@
-{{!-- {{>navigation}} --}}
-{{!-- <div class="row pt-5">
- {{# each products }}
-    <div class="col-md-3">
-        <div class="p-2" style="width: 60%; min-height: 100%">
-            <img src="{{this.thumbnail}}" class="card-img-top image-responsive img-wrap" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">{{ this.nombre }}</h5>
-                <p class="card-text">{{ this.descripcion }}</p>
-                <p class="price">${{ this.precio }}</p> <!-- price-wrap.// -->
-                <a href="/add-to-cart/{{this._id}}" class="btn btn-sm btn-outline-primary float-right">Agregar al carro <i class="fa fa-shopping-cart"></i></a>
-            </div>
-        </div>
-    </div>
-{{/each}}  
-</div> --}}
-
-
-
-
 <div class="col-md-12 pt-5">
     <!-- product list-->
 
     {{# each products }}
     <div class="row mb-5">
         <div class="col-md-2 col-sm-3 col-12 text-center p-2">
-            <a href="#modalProduct"><img src="{{this.thumbnail}}" class="mx-auto img-fluid" alt="product thumbnail"></a>
+            <a href="#"><img src="{{this.thumbnail}}" class="mx-auto img-fluid" alt="product thumbnail"></a>
         </div>
         <div class="col-12 d-block d-sm-none"> &nbsp; </div>
         <div class="col-md-6 col-sm-7 col-6">
-            <h5 class="text-uppercase"><a href="#modalProduct" data-toggle="modal">{{ this.nombre }}</a></h5>
-            <h6 class="small text-wide">3 styles, 6 colors</h6>
+            <h5 class="text-uppercase"><a href="#" data-toggle="modal">{{ this.nombre }}</a></h5>
+            {{!-- <h6 class="small text-wide">3 styles, 6 colors</h6> --}}
             <p class="text-truncate mb-0"> {{ this.descripcion }} </p>
-            <a href="#modalProduct" class="btn btn-outline-secondary mt-2">${{ this.precio }}</a>
+            <a href="#" class="btn btn-outline-secondary mt-2">${{ this.precio }}</a>
 
             
         </div>
@@ -74,16 +54,7 @@
     </div> --}}
 </div>
 
-
-
-
-
-
-
-
-
-
-<hr>
+<hr/>
 
 <div class="col-md-12 col-lg-12 order-md-last">
 <h4 class="d-flex justify-content-between align-items-center mb-3">

@@ -24,28 +24,6 @@ router.get('/', async (req, res) => {
 
 //navego a la ruta principal Protegida
 router.get('/administracion', isAuthenticated, async (req, res) => {
-	//envia correo ethereal
-	// sendMail.sendMail(
-	//   "Servidor Node.js test",
-	//   "hank.fay91@ethereal.email",
-	//   "LOGIN",
-	//   `Nombre ${
-	//     req.user.firstName
-	//     // userProfile._json.name
-	//   } hora de log ${new Date()} foto de perfil ${
-	//     req.user.photo["data"].url ? req.user.photo["data"].url : ""
-	//     // userProfile._json.picture.data.url
-	//   }`,
-	// );
-
-	// let result = await controller.buscar();
-	// let mensajes = await controllerMsg.findAll();
-
-	// res.render('administracion', {
-	// 	csrfToken: req.csrfToken(),
-	// 	products: result,
-	// 	messages: mensajes,
-	// });
 	return res.sendFile(path.join(__dirname, '../public', 'home.html'));
 });
 

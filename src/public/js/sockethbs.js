@@ -6,13 +6,15 @@ const lblOffline = document.querySelector("#lblOffline");
 function renderMessages(data) {
 	let html = data
 		.map((elem) => {
+			let color = (elem.tipo =="usuario"? "primary": "warning");
 			return `
-              <li class="list-group-item d-flex justify-content-between lh-sm">
+              <li class='list-group-item list-group-item-${color}'>
                 <div>
-                    <h6 class="my-0" style="color:#148DFF">${elem.email}</h6>
-                    <small style="color:#74BB00"><i>${elem.mensaje}</i></small>
+                    <h6 class="my-0">${elem.email}</h6>
+                    <small><i>${elem.mensaje}</i></small>
                 </div>
                 <span style="color:#591D03">${elem.timestamp} </span>
+				<span class="badge badge-${color}">${elem.tipo} </span>
               </li>
               `;
 		})
