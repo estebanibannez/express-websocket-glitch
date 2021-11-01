@@ -27,7 +27,9 @@ passport.use(
           );
         }
         // Contraseña incorrecta
-        if (!user.matchPassword(password)) {
+        const validaContrasena = user.matchPassword(password);
+        
+        if (!validaContrasena) {
           console.log("Invalid Password");
           return done(
             null,

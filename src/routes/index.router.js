@@ -186,7 +186,7 @@ router.get('/checkout', isAuthenticated, (req, res, next) => {
 	res.render('checkout', { total: cart.totalPrice, errMsg: errMsg, noErrors: !errMsg });
 });
 
-router.post('/checkout', isLoggedIn, (req, res, next) => {
+router.post('/checkout', isAuthenticated, (req, res, next) => {
 	console.log('processing the post checkout...');
 
 	if (!req.session.cart) {
