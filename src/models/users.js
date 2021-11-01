@@ -3,8 +3,6 @@ const bcrypt = require('bcrypt');
 
 const User = new Schema(
 	{
-		// provider_id: { type: String },
-		// username: { type: String },
 		password: { type: String },
 		email: String,
 		firstName: String,

@@ -3,6 +3,8 @@ if ((process.env.NODE_ENV || '').trim() !== 'production' && process.env.TIPOPERS
 	const Datastore = require('nedb');
 
 	const messageCollection = new Datastore();
+	const productsCollection = new Datastore();
+	const cartCollection = new Datastore();
 
 	messageCollection.loadDatabase(function(err) {
 		// Callback is optional
@@ -10,5 +12,5 @@ if ((process.env.NODE_ENV || '').trim() !== 'production' && process.env.TIPOPERS
 		console.log('\x1b[36m%s\x1b[0m', '============ conexion a la base de datos en memoria realizada =========');
 	});
 
-	module.exports = { messageCollection };
+	module.exports = { messageCollection , productsCollection, cartCollection};
 }

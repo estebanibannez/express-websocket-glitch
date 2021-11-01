@@ -8,6 +8,7 @@ knex.schema.hasTable("productos").then((exists) => {
       table.string("nombre").notNullable();
       table.string("timestamp");
       table.string("descripcion");
+      table.string("categoria");
       table.string("codigo");
       table.string("thumbnail");
       table.integer("precio");

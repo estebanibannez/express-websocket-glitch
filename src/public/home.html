@@ -26,11 +26,11 @@
                     <div>
                         <h3 class="float-md-start mb-0">Administrador</h3>
                         <nav class="nav nav-masthead justify-content-center float-md-end">
-                            <a class="nav-link active" aria-current="page" href="/home">Home</a>
+                            <a class="nav-link active" aria-current="page" href="/administracion">Home</a>
                             <a class="nav-link" href="/datos">Mis Datos</a>
                             <a class="nav-link" href="/info">Info</a>
                             <a class="nav-link" href="/profile">Mi Perfil</a>
-                            <a class="nav-link" href="/logout">Cerrar sesion</a>
+                            <a class="nav-link" href="/user/logout">Cerrar sesion</a>
                         </nav>
                     </div>
                 </header>
@@ -56,6 +56,16 @@
                         required>
                 </div>
 
+                <!-- Categoria del producto -->
+                <div class="form-group">
+                    <label for="categoria">Categoria</label>
+
+                    <select class="form-control" name="categoria" id="categoria">
+                        <option selected>Seleccione una categoria</option>
+                        <option value="comida">comida</option>
+                        <option value="tecnologia">tecnologia</option>
+                    </select>
+                </div>
 
                 <div class="row">
                     <div class="col">
@@ -81,7 +91,7 @@
                     <input id="descripcion" class="form-control form-control-sm" type="text" name="descripcion"
                         required>
                 </div>
-                
+
                 <!-- Botón de envío -->
                 <button type="submit" class="btn btn-success mt-3">Enviar</button>
             </form>
@@ -138,15 +148,94 @@
         </div>
     </div>
 
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal">Editar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <form autocomplete="off" novalidate id="modalEditar" method="post" name="modalEditar" action="">
+                    <div class="modal-body">
+                        <input type="hidden" name="id" id="id" placeholder=" " value="{{ id }}">
+                        <!-- <input type="hidden" name="_csrf" value="{{ csrfToken }}"> -->
+                        <!-- Campo nombre del producto -->
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input id="nombretxt" class="form-control form-control-sm" type="text" name="nombretxt"
+                                required>
+                        </div>
+
+                        <!-- Campo precio del producto -->
+                        <div class="form-group">
+                            <label for="precio">Precio</label>
+                            <input id="preciotxt" class="form-control form-control-sm" type="number" step="0.5"
+                                name="preciotxt" required>
+                        </div>
+
+                            <!-- Categoria del producto -->
+                        <div class="form-group">
+                            <label for="categoria">Categoria</label>
+
+                            <select class="form-control" name="categoriatxt" id="categoriatxt">
+                                <option selected>Seleccione una categoria</option>
+                                <option value="comida">comida</option>
+                                <option value="tecnologia">tecnologia</option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <!-- Campo precio del producto -->
+                                <div class="form-group">
+                                    <label for="precio">Stock</label>
+                                    <input id="stocktxt" class="form-control form-control-sm" type="number" step="0.5"
+                                        name="stocktxt" required>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <!-- Campo url de la foto del producto -->
+                                <div class="form-group">
+                                    <label for="foto">Foto URL</label>
+                                    <input id="thumbnailtxt" class="form-control form-control-sm" type="text"
+                                        name="thumbnailtxt">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- descripcion del producto -->
+                        <div class="form-group">
+                            <label for="descripcion">Descripción breve</label>
+                            <input id="descripciontxt" class="form-control form-control-sm" type="text"
+                                name="descripciontxt" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Editar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
     <script type="text/x-handlebars-template" id="index"></script>
 
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
     </script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/socket.js"></script>
-
 </body>
 
 </html>

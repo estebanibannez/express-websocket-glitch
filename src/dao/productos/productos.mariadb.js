@@ -32,6 +32,7 @@ module.exports = {
       descripcion: data.descripcion,
       codigo: data.codigo,
       thumbnail: data.thumbnail,
+      categoria: data.categoria,
       precio: data.precio,
       stock: data.stock,
     };
@@ -41,7 +42,7 @@ module.exports = {
         .insert(producto)
 
         .then(() => {
-          console.log("productos agregados a la tabla");
+          console.log("producto agregado a la tabla");
           return resolve(resultado);
         })
         .catch((error) => {

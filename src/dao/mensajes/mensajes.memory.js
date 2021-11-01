@@ -10,19 +10,6 @@ module.exports = {
     );
   },
 
-  // async findPage(page, limit) {
-  //   return new Promise((resolve, reject) =>
-  //     model
-  //       .find({})
-  //       .skip(page * limit)
-  //       .limit(limit)
-  //       .exec((err, docs) => {
-  //         if (err) return reject(err);
-  //         return resolve(docs);
-  //       }),
-  //   );
-  // },
-
   async findById(id) {
     return new Promise((resolve, reject) =>
       messageCollection.findOne({ _id: id }, (err, docs) => {

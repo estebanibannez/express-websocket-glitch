@@ -10,9 +10,6 @@ const controller = require('../controllers/productos.controller');
 const controllerMsg = require('../controllers/mensajes.controller');
 const Order = require('../models/order');
 const Cart = require('../models/cart');
-// const csrf = require('csurf');
-// const csrfProtection = csrf();
-// router.use(csrfProtection);
 
 router.get('/', async (req, res) => {
 	const productChunks = await controller.buscar();
@@ -23,7 +20,6 @@ router.get('/', async (req, res) => {
 		// successMsg: successMsg,
 		// noMessages: !successMsg,
 	});
-	// return res.render('signin');
 });
 
 //navego a la ruta principal Protegida
@@ -171,6 +167,80 @@ router.get('/shopping-cart', (req, res, next) => {
 	}
 	let cart = new Cart(req.session.cart);
 	res.render('shopping-cart', { products: cart.generateArray(), totalPrice: cart.totalPrice });
+});
+
+//====================== checkout ==================//
+
+router.get('/checkout', isAuthenticated, (req, res, next) => {
+	console.log('procediendo con el pago...');
+
+	//si no existe un carro en sesion
+	if (!req.session.cart) {
+		return res.redirect('/shopping-cart');
+	}
+
+	console.log('req.session.cart: ', req.session.cart);
+
+	let cart = new Cart(req.session.cart);
+	let errMsg = req.flash('error')[0];
+	res.render('checkout', { total: cart.totalPrice, errMsg: errMsg, noErrors: !errMsg });
+});
+
+router.post('/checkout', isLoggedIn, (req, res, next) => {
+	console.log('processing the post checkout...');
+
+	if (!req.session.cart) {
+		return res.redirect('/shopping-cart');
+	}
+	let cart = new Cart(req.session.cart);
+
+	console.log('created the cart...');
+
+	console.log('token: ', req.body.stripeToken);
+	/*
+	var stripe = require("stripe")(
+		"sk_test_fwmVPdJfpkmwlQRedXec5IxR"
+	);
+	*/
+	let stripe = require('stripe')('sk_test_l6yzGVoH7wUkz5F7vRrRlczU');
+	stripe.charges.create(
+		{
+			amount: cart.totalPrice * 100,
+			currency: 'usd',
+			source: req.body.stripeToken, // obtained with Stripe.js
+			description: 'Test Charge',
+		},
+		(err, charge) => {
+			if (err) {
+				console.log('there were errors...');
+				req.flash('error', err.message);
+				return res.redirect('/checkout');
+			}
+			console.log('=============================================');
+			console.log('req.user: ', req.user);
+			console.log('cart: ', cart);
+			console.log('address: ', req.body.address);
+			console.log('name: ', req.body.name);
+			console.log('paymentId: ', charge.id);
+
+			let order = new Order({
+				user: req.user,
+				cart: cart,
+				address: req.body.address,
+				name: req.body.name,
+				paymentId: charge.id,
+			});
+			order.save(function(err, result) {
+				//if (err) {
+				//  console.log(err);
+				//  throw err;
+				//}
+				req.flash('success', 'Successfully bought product!');
+				req.session.cart = null;
+				res.redirect('/');
+			});
+		},
+	);
 });
 
 module.exports = router;
