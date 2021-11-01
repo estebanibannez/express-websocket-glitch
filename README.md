@@ -3,6 +3,12 @@
 _Proyecto coderhouse _
 
 ## V1 🚀
+
+qa@qa.cl
+123456
+usuario ecommerce de prueba
+
+
 ## Commands
 _ npm run dev : inicia en modo desarrollo base de datos en memoria 
 * nedb
