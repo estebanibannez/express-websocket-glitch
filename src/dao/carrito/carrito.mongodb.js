@@ -1,9 +1,9 @@
-const { messageCollection } = require("../../data/nedbConection");
+const model = require("../../models/carrito");
 
 module.exports = {
   async find() {
     return new Promise((resolve, reject) =>
-      messageCollection.find({}, (err, docs) => {
+      model.find({}, (err, docs) => {
         if (err) return reject(err);
         return resolve(docs);
       }),
@@ -12,30 +12,27 @@ module.exports = {
 
   async findById(id) {
     return new Promise((resolve, reject) =>
-      messageCollection.findOne({ _id: id }, (err, docs) => {
+      model.findOne({ _id: id }, (err, docs) => {
         if (err) return reject(err);
         return resolve(docs);
       }),
     );
   },
 
-  async create({ email, mensaje, autor, timestamp }) {
+  async create(data) {
     return new Promise((resolve, reject) =>
-      messageCollection.insert(
-        { email, mensaje, autor, timestamp: new Date() },
-        (err, docs) => {
-          if (err) return reject(err);
-          return resolve(docs);
-        },
-      ),
+      model.create(data, (err, docs) => {
+        if (err) return reject(err);
+        return resolve(docs);
+      }),
     );
   },
 
   async findByIdAndUpdate(id, { email, mensaje }) {
-    const update = { $set: { email, mensaje, timestamp: new Date() } };
+    const update = { $set: { email, mensaje } };
 
     return new Promise((resolve, reject) =>
-      messageCollection.update({ _id: id }, update, {}, (err, docs) => {
+      model.updateOne({ _id: id }, update, {}, (err, docs) => {
         if (err) return reject(err);
         return resolve(docs);
       }),
@@ -44,7 +41,7 @@ module.exports = {
 
   async findByIdAndDelete(id) {
     return new Promise((resolve, reject) =>
-      messageCollection.remove({ _id: id }, (err, docs) => {
+      model.remove({ _id: id }, (err, docs) => {
         if (err) return reject(err);
         return resolve(docs);
       }),

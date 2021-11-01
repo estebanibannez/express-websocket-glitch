@@ -71,6 +71,8 @@ passport.use(
       user.password = await user.encryptPassword(password);
       user.firstName = req.body.firstName;
       user.lastName = req.body.lastName;
+      user.age = req.body.edad;
+      user.phone = req.body.telefono;
       await user.save();
       done(null, user);
     },

@@ -1,0 +1,140 @@
+
+<body>
+    <div class="container mt-5">
+        <div class="col-12">
+            <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+                <header class="mb-auto">
+                  <div>
+                    <h3 class="float-md-start mb-0">Administrador</h3>
+                    <nav class="nav nav-masthead justify-content-center float-md-end">
+                      <a class="nav-link active" aria-current="page" href="/home">Home</a>
+                      <a class="nav-link" href="/datos">Mis Datos</a>
+                      <a class="nav-link" href="/info">Info</a>
+                      <a class="nav-link" href="/profile">Mi Perfil</a>
+                      <a class="nav-link" href="/logout">Cerrar sesion</a>
+                    </nav>
+                  </div>
+                </header>
+          </div>
+        </div>
+    </div>
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1>Ingrese Producto</h1>
+            <br>
+            <form autocomplete="off" novalidate id="form" method="post" action="">
+                <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                <!-- Campo nombre del producto -->
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input id="nombre" class="form-control form-control-sm" type="text" name="nombre" required>
+                </div>
+
+                <!-- Campo precio del producto -->
+                <div class="form-group">
+                    <label for="precio">Precio</label>
+                    <input id="precio" class="form-control form-control-sm" type="number" step="0.5" name="precio"
+                        required>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <!-- Campo precio del producto -->
+                        <div class="form-group">
+                            <label for="precio">Stock</label>
+                            <input id="stock" class="form-control form-control-sm" type="number" step="0.5"
+                                name="stock" required>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <!-- Campo url de la foto del producto -->
+                        <div class="form-group">
+                            <label for="foto">Foto URL</label>
+                            <input id="thumbnail" class="form-control form-control-sm" type="text" name="thumbnail">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botón de envío -->
+                <button type="submit" class="btn btn-success mt-3">Enviar</button>
+            </form>
+
+            <hr>
+            <br>
+            {{!-- <div id="datos"></div> --}}
+
+          
+            <div class="row">
+                <div class="table-responsive">
+                        <table class="table table-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Foto</th>
+                            </tr>
+                            {{#each productos}}
+                            <tr>
+                                <td>{{this.id}}</td>
+                                <td>{{this.nombre}}</td>
+                                <td>$ {{ this.precio }}</td>
+                                <td> {{ this.stock }}</td>
+                                <td><img width="50" src={{this.thumbnail}} alt="not found"></td>
+                                <td><button onclick="eliminarProducto(this);" id="" value="{{ this._id }}" type="button" class="btn btn-primary btn-sm">Borrar</button></td>
+                            </div>
+                            </tr>
+                            {{/each}}
+                        </table>
+                    </div>
+            </div>
+       
+
+            <div class="col-md-7 col-lg-7 order-md-last">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-primary">Centro de mensajes</span>
+                    <span class="badge rounded-pill">
+                        <span class="badge badge-success" id="lblOnline">conectado</span>
+                        <span class="badge badge-danger" id="lblOffline">desconectado</span>
+                    </span>
+                </h4>
+                <ul class="list-group mb-3" id="messages">
+                </ul>
+
+                <div class="card p-1">
+                    <div class="input-group">
+                        <form action="" class="form-inline" id="formMessages">
+                            <div class="col-12">
+                                <div class="input-group has-validation">
+                                    <span class="input-group-text">@</span>
+                                    <input type="text" class="form-control" id="email" name="email"
+                                        placeholder="Correo electrónico" required="">
+                                    <div class="invalid-feedback">
+                                        Correo electrónico es requerido.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-2">
+                                <div class="input-group has-validation">
+                                    <span class="input-group-text"><i class="fa fa-envelope"
+                                            aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" id="mensaje" name="mensaje"
+                                        placeholder="Escribe tu mensaje..." required="">
+                                    <div class="invalid-feedback">
+                                        Mensaje es requerido.
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-2">
+                                    <button type="submit" id="btnEnviar"
+                                        class="btn btn-secondary btn-block">Enviar</button>
+                                </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

@@ -4,10 +4,10 @@ const daoFactory = require("../dao/DAOFactory");
 class MessageController {
   constructor() {
     //super(Message);
-    console.log('persistencia actual de mensajes',config.PERSISTENCE)
+    console.log('persistencia actual de mensajes',config.TIPOPERSISTENCIA)
     this.mensajesDao = daoFactory.getPersistence(
       "mensajes",
-      config.PERSISTENCE,
+      config.TIPOPERSISTENCIA,
     );
   }
 

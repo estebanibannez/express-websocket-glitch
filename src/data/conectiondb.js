@@ -8,7 +8,7 @@ const connection = mongoose.connect(URL, {
   useCreateIndex: true,
 });
 
-if ((process.env.NODE_ENV || "").trim() !== "development") {
+if (process.env.TIPOPERSISTENCIA == "mongodb") {
   mongoose.connection.on("connected", () => {
     console.log(
       "\x1b[36m%s\x1b[0m",

@@ -1,7 +1,5 @@
-const { sqlite3Producto } = require("../config/config");
-const { sqlite3Mensajes } = require("../config/config");
-const knex = require("knex")(sqlite3Producto);
-const knexMsg = require("knex")(sqlite3Mensajes);
+const { sqlite3 } = require("../config/config");
+const knex = require("knex")(sqlite3);
 
 knex.schema.hasTable("productos").then((exists) => {
   if (!exists) {
@@ -10,6 +8,7 @@ knex.schema.hasTable("productos").then((exists) => {
       table.string("nombre").notNullable();
       table.string("timestamp");
       table.string("descripcion");
+      table.string("categoria");
       table.string("codigo");
       table.string("thumbnail");
       table.integer("precio");
@@ -18,7 +17,7 @@ knex.schema.hasTable("productos").then((exists) => {
   }
 });
 
-knexMsg.schema.hasTable("mensajes").then((exists) => {
+knex.schema.hasTable("mensajes").then((exists) => {
   if (!exists) {
     return knex.schema.createTable("mensajes", (table) => {
       table.increments("id").primary();

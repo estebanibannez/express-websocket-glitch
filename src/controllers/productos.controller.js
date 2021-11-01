@@ -5,7 +5,7 @@ class ProductosController {
   constructor() {
     this.productosDao = daoFactory.getPersistence(
       "productos",
-      config.PERSISTENCE,
+      config.TIPOPERSISTENCIA,
     );
   }
 

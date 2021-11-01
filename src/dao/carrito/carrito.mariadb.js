@@ -1,4 +1,6 @@
-const knex = require("../../data/conectionKnex")
+require("../../data/migracion");
+const { sqlite3Mensajes } = require("../../config/config");
+const knex = require("knex")(sqlite3Mensajes);
 
 module.exports = {
   async find() {
@@ -28,7 +30,7 @@ module.exports = {
   async create(data) {
     const mensaje = {
       mensaje: data.mensaje,
-      timestamp: new Date().toISOString(),
+      timestamp: Date.now(),
       autor: data.autor,
       email: data.email,
     };

@@ -13,6 +13,13 @@ const log4js = require('log4js');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./src/graphql/schema');
 const root = require('./src/graphql/resolvers/resolver');
+
+// ------------------------- SETTINGS --------------------------
+require('dotenv').config();
+require(`./src/passport/local-auth`);
+require(`./src/data/conectiondb`);
+require(`./src/data/nedbConection`);
+
 // ------------------------- MIDDLEWARES -----------------------
 
 app.set('views', path.join(__dirname, '/src/views'));
@@ -45,11 +52,9 @@ log4js.configure({
 	},
 });
 
-// ------------------------- SETTINGS --------------------------
-require('dotenv').config();
-require(`./src/data/conectiondb`);
-require(`./src/data/nedbConection`);
-require(`./src/passport/local-auth`);
+if (process.env.TIPOPERSISTENCIA == 'mariadb') {
+	require('./src/data/migracion');
+}
 // require(`./src/passport/facebook-auth`);
 
 // ------------------------- STATIC FILES ----------------------
@@ -84,14 +89,33 @@ app.use(
 );
 
 // Global Variables
-//middleware para flash
+// authenticate?
+// middleware para flash
 app.use((req, res, next) => {
 	app.locals.signinMessage = req.flash('signinMessage');
 	app.locals.signupMessage = req.flash('signupMessage');
 	app.locals.logeadoMessage = req.flash('logeadoMessage');
-
+	const role = (req.user ? req.user.role : null) || null;
+	app.locals.usuariologeado = role == 'admin' ? true : false;
+	res.locals.login = req.isAuthenticated();
+	res.locals.session = req.session;
 	res.locals.user = req.user || null;
-	// console.log(app.locals)
+
+	// app.locals.role = null;
+	// if(req.user){
+	// 	app.locals.role = req.user.role === 'admin' ? true : false || null;
+	// }else{
+	// 	app.locals.role = null;
+	// }
+
+	console.log(app.locals);
+	next();
+});
+
+app.use(function(req, res, next) {
+	res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+	res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 	next();
 });
 
