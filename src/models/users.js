@@ -23,8 +23,9 @@ User.methods.encryptPassword = async (password) => {
 	return await bcrypt.hash(password, salt);
 };
 
-User.methods.matchPassword = async function(password) {
-	return await bcrypt.compare(password, this.password);
+User.methods.matchPassword = function (password) {
+	const result = bcrypt.compareSync(password, this.password);
+	return result;
 };
 
 module.exports = model('Usuario', User);

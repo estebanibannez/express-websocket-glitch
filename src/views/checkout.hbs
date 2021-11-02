@@ -29,7 +29,7 @@
                 
                 <hr>
 
-                <div class="row">
+                {{!-- <div class="row">
                     <div class="col-12">
                         <div class="form-group">
                             <label for="card-name">Card Holder Name</label>
@@ -63,9 +63,8 @@
                                 <input type="text" id="card-expiry-year" class="form-control" required>
                             </div>
                         </div>
+                        </div>
                     </div>
-                </div>
-
                 </div>
          
                 <div class="col-xs-4">
@@ -73,20 +72,19 @@
                         <label for="card-cvc">CVC</label>
                         <input type="text" id="card-cvc" class="form-control" required>
                     </div>
-                </div>
-
-
+                </div> --}}
+            <button type="submit" class="btn btn-primary">Pagar!</button>
             <div id="card-errors" role="alert"></div>
             
-            <script
+            {{!-- <script
                 src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                data-key="pk_test_G48XW0NOk13xaDsUERQizLeI"
+                data-key="pk_test_51JqqQmA7vK5jr7gy1iAzVLjaIYrDXWk2I0kFwEpwifYj1sVu5QcG2IHXiVOsSZH5UDnCd1Be5oUgaGww1L549VhL00d94Fm0ky"
                 data-amount="{{total}}"
                 data-name="Demo Site"
                 data-description="Example charge"
                 data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
                 data-locale="auto">
-            </script>
+            </script> --}}
         </form>
                 
     </div>

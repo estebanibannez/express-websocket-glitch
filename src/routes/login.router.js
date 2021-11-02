@@ -73,20 +73,7 @@ router.get('/faillogin', async (req, res) => {
 
 router.get('/user/logout', controller.getLogout);
 
-// //middleware para verificar si usuario está logeado
-// const auth = (req, res, next) => {
-//   if (req.session && req.session.user == "admin" && req.session.admin) {
-//     return next();
-//   } else {
-//     return res.status(401).send("No autorizado");
-//   }
-// };
-
-// router.get("/contenido", auth, (req, res) => {
-//   res.send("solo un administrador puede ver esta info");
-// });
-
-// // --------------- autenticación con Facebook ----------------- //
+// --------------- autenticación con Facebook ----------------- //
 router.get('/auth/facebook', passport.authenticate('facebook'));
 
 router.get(

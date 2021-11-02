@@ -4,6 +4,7 @@ const schema = mongoose.Schema({
   mensaje: { type: String, max: 400 },
   autor: { type: String, max: 200 },
   email: { type: String },
+  tipo: { type: String ,default: "usuario" },
   timestamp: { type: Date, default: new Date() },
 });
 const Message = mongoose.model("mensaje", schema);
