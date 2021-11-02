@@ -7,6 +7,7 @@ _Proyecto coderhouse _
 qa@qa.cl
 123456
 usuario ecommerce de prueba
+____________________________
 admin@admin.cl
 admin
 usuario administrador
